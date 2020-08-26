@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  strapi:
+    image: strapi/strapi
+    networks:
+      - default
+      - main
+    env_file:
+      - .env.strapi
+    volumes:
+      - ./strapi:/srv/app
+
+  postgres:
+    image: postgres
+    env_file:
+      - .env.postgres
+    volumes:
+      - strapi-postgres:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+volumes:
+  strapi-postgres:
+
+networks:
+  main:
+    external: true
+    name: Main_default
