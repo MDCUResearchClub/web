@@ -28,8 +28,8 @@ class MyDocument extends Document {
             sizes="180x180"
             href="/favicon/apple-touch-icon.png"
           />
-          <link rel="shortcut icon" href="/static/favicon.ico" />
-          <link rel="manifest" href="/site.webmanifest" />
+          <link rel="shortcut icon" href="/favicon/favicon.ico" />
+          <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content="#000" />
         </Head>
         <body>
