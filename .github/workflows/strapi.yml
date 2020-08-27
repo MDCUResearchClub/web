@@ -43,7 +43,13 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       - name: Pull image
-        run: docker pull docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          docker pull $IMAGE_ID
         continue-on-error: true
 
       - name: Build image
