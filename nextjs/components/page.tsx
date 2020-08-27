@@ -4,7 +4,7 @@ import { SITE_NAME } from "../constant";
 
 export default function Page({ title = "", children }) {
   return (
-    <div className="text-center">
+    <div>
       <Head>
         <title>
           {title ? `${title} | ` : ""}
@@ -12,7 +12,7 @@ export default function Page({ title = "", children }) {
         </title>
       </Head>
       <Nav />
-      {children}
+      <main>{children}</main>
     </div>
   );
 }
