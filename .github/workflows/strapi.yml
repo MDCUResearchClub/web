@@ -3,7 +3,7 @@ name: Strapi CI
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  IMAGE_NAME: web
+  IMAGE_NAME: strapi
 
 defaults:
   run:
