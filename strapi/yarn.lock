@@ -7366,7 +7366,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"koa@npm:^2.8.0":
+"koa@npm:*, koa@npm:^2.8.0":
   version: 2.13.0
   resolution: "koa@npm:2.13.0"
   dependencies:
