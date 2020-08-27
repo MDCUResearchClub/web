@@ -1,14 +1,12 @@
 version: "3.8"
 services:
   strapi:
-    image: strapi/strapi
+    image: docker.pkg.github.com/mdcuresearchclub/web/strapi
     networks:
       - default
       - main
     env_file:
       - .env.strapi
-    volumes:
-      - ./strapi:/srv/app
 
   postgres:
     image: postgres
