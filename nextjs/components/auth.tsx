@@ -88,7 +88,7 @@ export function HomeCTA() {
 
   if (session) {
     return (
-      <Link href="/talk">
+      <Link href="/talks">
         <a className={className}>
           Watch <span className="whitespace-no-wrap">Research Talks</span>
         </a>
