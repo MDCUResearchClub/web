@@ -6,7 +6,7 @@ export default function TalksPage({ message = "" }) {
     <div className="my-12 text-center text-4xl text-orange-800">{message}</div>
   );
   return (
-    <Page title="Home">
+    <Page title="Research Talks">
       {message ? messageBox : null}
       <div className="p-4 md:p-8 container relative mx-auto md:flex justify-around items-start">
         <div className="flex flex-col justify-end absolute md:static top-0 bottom-0 right-0 self-center w-1/2 md:w-5/12 lg:w-4/12 headline-img px-4">
