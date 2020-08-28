@@ -1,8 +1,10 @@
 import Page from "../page";
 
-export default function IndexPage() {
+export default function IndexPage({ message = "" }) {
+  const messageBox = <div className="my-12 text-center text-4xl">{message}</div>;
   return (
     <Page title="Home">
+      {message ? messageBox : null}
       <div className="p-8 container relative mx-auto md:flex justify-around items-start">
         <div className="flex flex-col justify-center absolute md:static top-0 bottom-0 right-0 opacity-50 md:opacity-100 self-center w-1/2 md:w-5/12 lg:w-4/12 headline-img px-4">
           <img alt="" src="/images/front.svg" />
