@@ -32,6 +32,7 @@ class MyDocument extends Document {
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content="#000" />
+          <meta name="google-site-verification" content="IZCRXZBnxXQG-WklRrjvGosyO69S8WLnMvyj6OChCkQ" />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
