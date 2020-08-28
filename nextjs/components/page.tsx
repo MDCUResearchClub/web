@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Nav from "./nav";
 import Footer from "./footer";
-import { SITE_NAME } from "../constant";
+import { SITE_NAME } from "../lib/constant";
 
 export default function Page({ title = "", children }) {
   return (

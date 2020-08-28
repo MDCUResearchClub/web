@@ -1,4 +1,4 @@
-import { SITE_NAME } from "../constant";
+import { SITE_NAME } from "../lib/constant";
 
 export default function Footer() {
   return (

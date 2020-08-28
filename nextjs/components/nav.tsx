@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "../constant";
+import { SITE_NAME } from "../lib/constant";
 import { useState } from "react";
 
 export default function Nav() {
