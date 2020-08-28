@@ -1,7 +1,7 @@
 import Page from "../page";
 
 export default function IndexPage({ message = "" }) {
-  const messageBox = <div className="my-12 text-center text-4xl">{message}</div>;
+  const messageBox = <div className="my-12 text-center text-4xl text-orange-800">{message}</div>;
   return (
     <Page title="Home">
       {message ? messageBox : null}
