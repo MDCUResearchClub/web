@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Router from "next/router";
+import { Provider as AuthProvider } from "next-auth/client";
 import { pageview } from "../lib/gtag";
 import "../lib/globals.css";
 
@@ -14,7 +15,11 @@ function MyApp({ Component, pageProps }) {
     };
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <AuthProvider session={pageProps.session}>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }
 
 export default MyApp;

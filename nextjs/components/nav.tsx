@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE_NAME } from "../lib/constant";
 import { useState } from "react";
+import { NavbarAuth } from "./auth";
 
 export default function Nav() {
   const [expanded, setExpanded] = useState(false);
@@ -59,13 +60,7 @@ export default function Nav() {
           ))}
         </ul>
         <div>
-          <ul className="flex flex-col md:flex-row mt-4 md:m-0">
-            <li className="m-2">
-              <Link href="/login">
-                <a>Log in</a>
-              </Link>
-            </li>
-          </ul>
+          <NavbarAuth />
         </div>
       </div>
 
