@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/client";
-import { useReducer, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const isSSR = typeof window === "undefined";
 
@@ -10,39 +10,24 @@ const actionTypes = {
   loaded: "LOADED",
 };
 
-function loadingReducer(state, action) {
-  switch (action.type) {
-    case actionTypes.signIn:
-      return { loading: true, text: "Logging in" };
-    case actionTypes.signOut:
-      return { loading: true, text: "Logging out" };
-    case actionTypes.loaded:
-      return { loading: false, text: "" };
-    default:
-      throw new Error();
-  }
-}
-
 export function NavbarAuth() {
   const [session, sessionLoading] = useSession();
-  const [isLoading, dispatchIsLoading] = useReducer(loadingReducer, {
-    loading: true,
-    text: isSSR ? "" : localStorage.getItem("authStatus"),
+  const [authStatus, setAuthStatus] = useState({
+    startProcessing: false,
+    text: "",
   });
   const linkItems = [];
 
-  if ((isLoading.loading || sessionLoading) && isLoading.text && !session) {
-    linkItems.push(isLoading.text);
-  } else if (!session) {
+  if (!session) {
     linkItems.push(
       <button
         onClick={() => {
-          dispatchIsLoading({ type: actionTypes.signIn });
+          setAuthStatus({ startProcessing: true, text: "Logging in" });
           localStorage.setItem("authStatus", "Logging in");
           signIn("google");
         }}
       >
-        Log in
+        {authStatus.text || "Log in"}
       </button>
     );
   } else {
@@ -50,20 +35,23 @@ export function NavbarAuth() {
     linkItems.push(
       <button
         onClick={() => {
-          dispatchIsLoading({ type: actionTypes.signOut });
+          setAuthStatus({ startProcessing: true, text: "Logging out" });
           localStorage.setItem("authStatus", "Logging out");
           signOut();
         }}
       >
-        Log out
+        {authStatus.text || "Log out"}
       </button>
     );
   }
 
   useEffect(() => {
-    if (isLoading.loading && session) {
+    const localAuthStatus = localStorage.getItem("authStatus");
+    if (!authStatus.text && localAuthStatus && sessionLoading) {
+      setAuthStatus({startProcessing: false, text: localAuthStatus})
+    } else if (authStatus.text && !authStatus.startProcessing && !sessionLoading) {
+      setAuthStatus({startProcessing: false, text: ""})
       localStorage.removeItem("authStatus");
-      dispatchIsLoading({ type: actionTypes.loaded });
     }
   });
 
@@ -80,11 +68,18 @@ export function NavbarAuth() {
 
 export function HomeCTA() {
   const [session, loading] = useSession();
-  const [authStatus, setAuthStatus] = useState(
-    !isSSR && localStorage.getItem("authStatus")
-  );
+  const [authStatus, setAuthStatus] = useState("");
   const className =
-    "inline-block rounded-md text-center text-xl text-white bg-blue-500 px-12 md:px-auto md:w-full py-2";
+    "inline-block rounded-md text-center text-xl md:text-2xl text-white bg-indigo-700 px-12 md:px-auto md:w-full py-2";
+
+  useEffect(() => {
+    const localAuthStatus = localStorage.getItem("authStatus");
+    if (localAuthStatus && loading) {
+      setAuthStatus(localAuthStatus);
+    } else if (authStatus && !localAuthStatus && !loading) {
+      setAuthStatus("");
+    }
+  });
 
   if (session) {
     return (
@@ -95,6 +90,7 @@ export function HomeCTA() {
       </Link>
     );
   }
+
   return (
     <button
       className={className}
