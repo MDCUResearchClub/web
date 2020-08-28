@@ -15,9 +15,11 @@ export default function Nav() {
     <nav className="flex flex-col md:flex-row text-center bg-gray-800 text-gray-100 items-stretch md:items-center p-2">
       <div className="flex justify-between w-full md:w-auto">
         <div className="flex items-center">
-          <a href="/" rel="home" className="pr-2">
-            <img src="/logo.svg" alt={`${SITE_NAME} logo`} className="w-8" />
-          </a>
+          <Link href="/">
+            <a rel="home" className="pr-2">
+              <img src="/logo.svg" alt={`${SITE_NAME} logo`} className="w-8" />
+            </a>
+          </Link>
 
           <Link href="/">
             <a title="Home" rel="home">
