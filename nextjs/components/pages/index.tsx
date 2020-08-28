@@ -1,16 +1,19 @@
 import Page from "../page";
+import { HomeCTA } from "../auth";
 
 export default function IndexPage({ message = "" }) {
-  const messageBox = <div className="my-12 text-center text-4xl text-orange-800">{message}</div>;
+  const messageBox = (
+    <div className="my-12 text-center text-4xl text-orange-800">{message}</div>
+  );
   return (
     <Page title="Home">
       {message ? messageBox : null}
-      <div className="p-8 container relative mx-auto md:flex justify-around items-start">
+      <div className="p-4 md:p-8 container relative mx-auto md:flex justify-around items-start">
         <div className="flex flex-col justify-center absolute md:static top-0 bottom-0 right-0 opacity-50 md:opacity-100 self-center w-1/2 md:w-5/12 lg:w-4/12 headline-img px-4">
           <img alt="" src="/images/front.svg" />
         </div>
-        <div className="md:bg-blue-200 md:p-12 lg:p-16 xl:p-20 my-12 sm:m-12 headline-container">
-          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed">
+        <div className="md:bg-blue-200 md:p-12 lg:p-16 xl:p-20 my-12 sm:m-8 headline-container">
+          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed mb-8">
             Research is
             <br />
             <span className="whitespace-no-wrap text-4xl md:text-5xl xl:text-6xl relative headline-highlight z-0">
@@ -19,6 +22,7 @@ export default function IndexPage({ message = "" }) {
             <br />
             as you think.
           </h1>
+          <HomeCTA />
         </div>
       </div>
       <style jsx>
@@ -35,6 +39,7 @@ export default function IndexPage({ message = "" }) {
 
           .headline-img {
             transform: scaleX(-1);
+            z-index: -1;
           }
 
           @screen md {

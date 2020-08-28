@@ -8,8 +8,7 @@ export default function Nav() {
 
   const links = [
     ["/", "Home"],
-    ["/journey", "MDCU's Journey"],
-    ["/story", "Faculty's Story"],
+    ["/talks", "Research Talks"],
   ];
 
   return (
