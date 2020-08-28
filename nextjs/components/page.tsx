@@ -11,6 +11,7 @@ export default function Page({ title = "", children }) {
           {title ? `${title} | ` : ""}
           {SITE_NAME}
         </title>
+        <meta name="description" content="MDCU Research Club" />
       </Head>
       <Nav />
       <main>{children}</main>
