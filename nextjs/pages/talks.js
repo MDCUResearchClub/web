@@ -1,3 +1,1 @@
-import TalksPage from "../components/pages/talks";
-
-export default TalksPage;
+export { default, getServerSideProps } from "../components/pages/talks";

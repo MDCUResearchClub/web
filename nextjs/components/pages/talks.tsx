@@ -1,13 +1,12 @@
 import Page from "../page";
-import { HomeCTA } from "../auth";
+import { useStrapi, loginUser } from "../../lib/strapi";
+import { getSession } from "next-auth/client";
 
-export default function TalksPage({ message = "" }) {
-  const messageBox = (
-    <div className="my-12 text-center text-4xl text-orange-800">{message}</div>
-  );
+export default function TalksPage({ strapiUser: strapiUserProps }) {
+  const strapiUser = useStrapi(strapiUserProps);
+  console.log(strapiUser);
   return (
     <Page title="Research Talks">
-      {message ? messageBox : null}
       <div className="p-4 md:p-8 container relative mx-auto md:flex justify-around items-start">
         <div className="flex flex-col justify-end absolute md:static top-0 bottom-0 right-0 self-center w-1/2 md:w-5/12 lg:w-4/12 headline-img px-4">
           <img alt="" src="/images/peep.svg" />
@@ -37,13 +36,13 @@ export default function TalksPage({ message = "" }) {
           .headline-img {
             transform: scaleX(-1);
             z-index: -1;
-            animation: headline-img .5s ease-out;
+            animation: headline-img 0.5s ease-out;
           }
 
           @keyframes headline-img {
             from {
               transform: scaleX(-1) translateY(1rem);
-              opacity: .25;
+              opacity: 0.25;
             }
           }
 
@@ -54,7 +53,7 @@ export default function TalksPage({ message = "" }) {
             @keyframes headline-img {
               from {
                 transform: translateY(2rem);
-                opacity: .25;
+                opacity: 0.25;
               }
             }
           }
@@ -68,4 +67,22 @@ export default function TalksPage({ message = "" }) {
       </style>
     </Page>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  let strapiUser = null;
+  if (session) {
+    strapiUser = await loginUser(session.user);
+
+    // talks = await fetch(`${STRAPI_ENDPOINT}/research-talks`, {
+    //   headers: {
+    //     Authorization: `Bearer ${strapiUser.jwt}`,
+    //   },
+    // }).then((res) => res.json());
+  }
+  return {
+    props: { session, strapiUser },
+  };
 }
