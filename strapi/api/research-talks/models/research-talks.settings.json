@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "research_talks",
+  "info": {
+    "name": "Research Talks"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "private": false,
+      "required": true,
+      "unique": false
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "youtubeID": {
+      "type": "string",
+      "required": true,
+      "private": false
+    }
+  }
+}
