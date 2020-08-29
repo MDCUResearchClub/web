@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import useSWR, { mutate } from "swr";
 import jwt from "jsonwebtoken";
 
-export const STRAPI_ENDPOINT =
-  process.env.NODE_ENV === "development"
-    ? "https://strapi.mdcuresearchclub.thew.pro"
-    : "http://localhost:1337";
+export const STRAPI_ENDPOINT = "https://strapi.mdcuresearchclub.thew.pro";
 
 export async function loginUser(user) {
   const nextjsUser = await fetch(`${STRAPI_ENDPOINT}/auth/local`, {
