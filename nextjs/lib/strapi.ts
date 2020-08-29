@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/client";
-
-const jwt = require("jsonwebtoken");
+import { useEffect } from "react";
+import useSWR, { mutate } from "swr";
+import jwt from "jsonwebtoken";
 
 export const STRAPI_ENDPOINT =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "development"
     ? "https://strapi.mdcuresearchclub.thew.pro"
     : "http://localhost:1337";
 
@@ -37,37 +36,48 @@ export async function loginUser(user) {
   return strapiUser;
 }
 
-let cachedStrapiUser = {};
-
-export function useStrapi(strapiUserProps) {
-  const [session, sessionLoading] = useSession();
-
-  if (strapiUserProps) {
-    cachedStrapiUser = strapiUserProps;
+export function useStrapi(endpoint = "/users/me") {
+  function fetcher(input, init?) {
+    return fetch(input, init).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      } else if (res.status === 401) {
+        return null;
+      } else {
+        throw res;
+      }
+    });
   }
-  const [strapiUser, setStrapiUser] = useState(cachedStrapiUser);
 
-  function fetchStrapiAuth() {
-    if (session) {
-      return fetch("/api/auth/strapi")
-        .then((res) => res.json())
-        .then((strapiUser) => {
-          setStrapiUser(strapiUser);
-          cachedStrapiUser = strapiUser;
-        });
+  const { data: strapiUser, error: userError } = useSWR(
+    "/api/auth/strapi",
+    fetcher
+  );
+
+  function dataFetcher(endpoint, token) {
+    if (!token) {
+      throw "No token";
     }
+    return fetcher(endpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
+
+  const { data, error: dataError } = useSWR(
+    [`${STRAPI_ENDPOINT}${endpoint}`, strapiUser?.["jwt"]],
+    dataFetcher
+  );
+
   useEffect(() => {
-    if (!strapiUser["jwt"]) {
-      fetchStrapiAuth();
-    } else if (strapiUser["jwt"]) {
+    if (strapiUser?.["jwt"]) {
       const jwtDecoded = strapiUser["jwtDecoded"];
-      const timeout = setTimeout(
-        fetchStrapiAuth,
-        jwtDecoded.exp * 1000 - Date.now()
-      );
+      const timeout = setTimeout(() => {
+        mutate("/api/auth/strapi");
+      }, jwtDecoded.exp * 1000 - Date.now());
       return () => clearTimeout(timeout);
     }
   });
-  return strapiUser;
+  return { strapiUser, data, userError, dataError };
 }

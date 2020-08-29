@@ -2,14 +2,6 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { useEffect, useState } from "react";
 
-const isSSR = typeof window === "undefined";
-
-const actionTypes = {
-  signIn: "SIGNIN",
-  signOut: "SIGNOUT",
-  loaded: "LOADED",
-};
-
 export function NavbarAuth() {
   const [session, sessionLoading] = useSession();
   const [authStatus, setAuthStatus] = useState({

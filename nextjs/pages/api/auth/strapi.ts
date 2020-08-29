@@ -3,7 +3,6 @@ import { loginUser } from "../../../lib/strapi";
 
 export default async (req, res) => {
   const session = await getSession({ req });
-  console.log(session);
   if (session) {
     res.send(await loginUser(session.user));
   } else {

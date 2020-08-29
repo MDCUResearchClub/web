@@ -1,10 +1,10 @@
 import Page from "../page";
-import { useStrapi, loginUser } from "../../lib/strapi";
+import { useStrapi } from "../../lib/strapi";
 import { getSession } from "next-auth/client";
 
-export default function TalksPage({ strapiUser: strapiUserProps }) {
-  const strapiUser = useStrapi(strapiUserProps);
-  console.log(strapiUser);
+export default function TalksPage() {
+  const strapi = useStrapi("/research-talks");
+  console.log(strapi);
   return (
     <Page title="Research Talks">
       <div className="p-4 md:p-8 container relative mx-auto md:flex justify-around items-start">
@@ -71,18 +71,7 @@ export default function TalksPage({ strapiUser: strapiUserProps }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
-  let strapiUser = null;
-  if (session) {
-    strapiUser = await loginUser(session.user);
-
-    // talks = await fetch(`${STRAPI_ENDPOINT}/research-talks`, {
-    //   headers: {
-    //     Authorization: `Bearer ${strapiUser.jwt}`,
-    //   },
-    // }).then((res) => res.json());
-  }
   return {
-    props: { session, strapiUser },
+    props: { session },
   };
 }
