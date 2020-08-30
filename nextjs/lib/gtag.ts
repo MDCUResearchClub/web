@@ -1,20 +1,15 @@
-export const GA_TRACKING_ID =
+export const UA_TRACKING_ID = "UA-121443271-3";
+
+export const G_TRACKING_ID =
   process.env.NODE_ENV === "production" ? "G-HDHM4V8SR6" : "G-G832CFVLYM";
-
-export const HEAD_SCRIPT = `
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '${GA_TRACKING_ID}');
-</script>`;
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url) => {
-  (<any>window).gtag("config", GA_TRACKING_ID, {
+  (<any>window).gtag("config", UA_TRACKING_ID, {
+    page_path: url,
+  });
+
+  (<any>window).gtag("config", G_TRACKING_ID, {
     page_path: url,
   });
 };
