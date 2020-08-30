@@ -12,8 +12,8 @@ export default function IndexPage({ message = "" }) {
         <div className="flex flex-col justify-center absolute md:static top-0 bottom-0 right-0 self-center w-1/2 md:w-5/12 lg:w-4/12 headline-img px-4">
           <img alt="" src="/images/front.svg" />
         </div>
-        <div className="md:bg-blue-200 md:p-8 lg:p-12 xl:p-16 my-20 sm:mx-8 headline-container">
-          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed mb-24 md:mb-8">
+        <div className="md:bg-blue-200 md:p-8 lg:p-12 xl:p-16 my-20 headline-container">
+          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed mb-24 md:mb-8 font-serif">
             Research is
             <br />
             <span className="whitespace-no-wrap text-4xl md:text-5xl xl:text-6xl relative headline-highlight z-0">
