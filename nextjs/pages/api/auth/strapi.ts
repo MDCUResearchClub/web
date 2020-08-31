@@ -1,10 +1,10 @@
 import { getSession } from "next-auth/client";
-import { loginUser } from "../../../lib/strapi";
+import { loginStrapiUser } from "../../../lib/strapi";
 
 export default async (req, res) => {
   const session = await getSession({ req });
   if (session) {
-    res.send(await loginUser(session.user));
+    res.send(await loginStrapiUser(session.user));
   } else {
     res.status(401);
   }

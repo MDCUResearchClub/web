@@ -40,9 +40,13 @@ export function NavbarAuth() {
   useEffect(() => {
     const localAuthStatus = localStorage.getItem("authStatus");
     if (!authStatus.text && localAuthStatus && sessionLoading) {
-      setAuthStatus({startProcessing: false, text: localAuthStatus})
-    } else if (authStatus.text && !authStatus.startProcessing && !sessionLoading) {
-      setAuthStatus({startProcessing: false, text: ""})
+      setAuthStatus({ startProcessing: false, text: localAuthStatus });
+    } else if (
+      authStatus.text &&
+      !authStatus.startProcessing &&
+      !sessionLoading
+    ) {
+      setAuthStatus({ startProcessing: false, text: "" });
       localStorage.removeItem("authStatus");
     }
   });
@@ -58,7 +62,12 @@ export function NavbarAuth() {
   );
 }
 
-export function HomeCTA() {
+type AuthCTAProps = {
+  text: string;
+  href: string;
+};
+
+export function AuthCTA({ text = "", href = "" }: AuthCTAProps) {
   const [session, loading] = useSession();
   const [authStatus, setAuthStatus] = useState("");
   const className =
@@ -74,13 +83,15 @@ export function HomeCTA() {
   });
 
   if (session) {
-    return (
-      <Link href="/talks">
-        <a className={className}>
-          Watch <span className="whitespace-no-wrap">Research Talks</span>
-        </a>
-      </Link>
-    );
+    if (href) {
+      return (
+        <Link href={href}>
+          <a className={className}>{text}</a>
+        </Link>
+      );
+    }
+
+    return <p className={className}>{text}</p>;
   }
 
   return (

@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from "../components/pages/talks";
+export { default } from "../components/pages/talks";

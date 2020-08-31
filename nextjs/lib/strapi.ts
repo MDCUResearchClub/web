@@ -1,11 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useSWR, { mutate } from "swr";
 import jwt from "jsonwebtoken";
 
+interface StrapiUser {
+  id: Number;
+  username: String;
+  email: String;
+}
+
+interface StrapiNextjsUser {
+  jwt: string;
+  user: StrapiUser;
+}
+
 export const STRAPI_ENDPOINT = "https://strapi.mdcuresearchclub.thew.pro";
 
-export async function loginUser(user) {
-  const nextjsUser = await fetch(`${STRAPI_ENDPOINT}/auth/local`, {
+function loginNextjs(): Promise<StrapiNextjsUser> {
+  return fetch(`${STRAPI_ENDPOINT}/auth/local`, {
     method: "POST",
     body: JSON.stringify({
       identifier: "nextjs@mdcuresearchclub.thew.pro",
@@ -15,6 +26,10 @@ export async function loginUser(user) {
       "Content-Type": "application/json; charset=utf-8",
     },
   }).then((res) => res.json());
+}
+
+export async function loginStrapiUser(user) {
+  const nextjsUser = await loginNextjs();
 
   const strapiUser = await fetch(`${STRAPI_ENDPOINT}/nextjs/login`, {
     method: "POST",
@@ -33,8 +48,29 @@ export async function loginUser(user) {
   return strapiUser;
 }
 
+function strapiDataFetcher(endpoint: string, token: string) {
+  if (!endpoint) {
+    throw "No endpoint";
+  }
+  if (!token) {
+    throw "No token";
+  }
+
+  return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+}
+
+export async function fetchStrapiServerSide(endpoint = "/users") {
+  const nextjsUser = await loginNextjs();
+
+  return strapiDataFetcher(endpoint, nextjsUser.jwt);
+}
+
 export function useStrapi(endpoint = "/users/me") {
-  function fetcher(input, init?) {
+  function strapiUserFetcher(input, init?) {
     return fetch(input, init).then((res) => {
       if (res.status === 200) {
         return res.json();
@@ -48,24 +84,17 @@ export function useStrapi(endpoint = "/users/me") {
 
   const { data: strapiUser, error: userError } = useSWR(
     "/api/auth/strapi",
-    fetcher
+    strapiUserFetcher
   );
-
-  function dataFetcher(endpoint, token) {
-    if (!token) {
-      throw "No token";
-    }
-    return fetcher(endpoint, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
 
   const { data, error: dataError } = useSWR(
-    [`${STRAPI_ENDPOINT}${endpoint}`, strapiUser?.["jwt"]],
-    dataFetcher
+    [endpoint, strapiUser?.["jwt"]],
+    strapiDataFetcher
   );
+
+  const dataRef = useRef(data);
+
+  dataRef.current = data === undefined ? dataRef.current : data;
 
   useEffect(() => {
     if (strapiUser?.["jwt"]) {
@@ -76,5 +105,6 @@ export function useStrapi(endpoint = "/users/me") {
       return () => clearTimeout(timeout);
     }
   });
-  return { strapiUser, data, userError, dataError };
+
+  return { strapiUser, data: dataRef.current, userError, dataError };
 }

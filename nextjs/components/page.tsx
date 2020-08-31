@@ -5,7 +5,7 @@ import { SITE_NAME } from "../lib/constant";
 
 export default function Page({ title = "", children }) {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Head>
         <title>
           {title ? `${title} | ` : ""}
