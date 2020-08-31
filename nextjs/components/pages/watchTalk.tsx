@@ -27,7 +27,9 @@ export default function watchTalk({ talk }) {
       </div>
       <div className="container mx-auto p-6">
         <h1 className="text-xl md:text-2xl font-semibold mb-2">{talk.title}</h1>
-        <ReactMarkdown>{talk.description}</ReactMarkdown>
+        <div className="prose">
+          <ReactMarkdown>{talk.description}</ReactMarkdown>
+        </div>
       </div>
     </Page>
   );
