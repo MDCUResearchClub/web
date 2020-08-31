@@ -1,4 +1,4 @@
-import { useState, useEffect, memo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Plyr from "plyr";
 import Head from "next/head";
 import { SITE_ORIGIN } from "../../lib/constant";
@@ -11,13 +11,11 @@ type VideoPlayerProps = React.ComponentProps<"div"> & {
 function VideoPlayer({
   videoID = "dZ9d3iCh-JQ",
   options = {},
-  ...restProps
 }: VideoPlayerProps) {
   const playerRef = useRef();
-  const [ratio, setRatio] = useState("56.25");
 
   useEffect(() => {
-    const player = new Plyr(playerRef.current, options);
+    const player = new Plyr(playerRef.current, options) as any;
 
     return () => {
       if (player.dispose) {
@@ -38,11 +36,11 @@ function VideoPlayer({
       <iframe
         src={src}
         allowFullScreen
-        allowtransparency="true"
+        allowTransparency
         allow="autoplay"
       ></iframe>
     </div>
   );
 }
 
-export default memo(VideoPlayer);
+export default VideoPlayer;
