@@ -24,22 +24,34 @@ function VideoPlayer({
     };
   }, []);
 
+  if (!videoID.match(/^[\w-]{11}$/)) {
+    throw "Invalid videoID";
+  }
+
   const src = `https://www.youtube.com/embed/${videoID}?origin=${encodeURIComponent(
     SITE_ORIGIN
   )}&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`;
 
   return (
-    <div ref={playerRef} className="plyr__video-embed">
+    <>
       <Head>
         <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
       </Head>
-      <iframe
-        src={src}
-        allowFullScreen
-        allowTransparency
-        allow="autoplay"
-      ></iframe>
-    </div>
+      <div
+        ref={playerRef}
+        className="plyr__video-embed"
+        dangerouslySetInnerHTML={{
+          __html: `
+          <iframe
+          src=${src}
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+          ></iframe>
+          `,
+        }}
+      ></div>
+    </>
   );
 }
 
