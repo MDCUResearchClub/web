@@ -43,7 +43,7 @@ async function loginNextjs(): Promise<StrapiNextjsUser> {
   // Try for 5 times before throw
   for (let i = 0; i < 5; i++) {
     try {
-      return fetchNextjsUser();
+      return await fetchNextjsUser();
     } catch (e) {
       console.error(e);
       await new Promise((r) => setTimeout(r, 50));
