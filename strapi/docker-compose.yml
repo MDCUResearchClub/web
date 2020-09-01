@@ -7,6 +7,12 @@ services:
       - main
     env_file:
       - .env.strapi
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 30s
 
   postgres:
     image: postgres
