@@ -2,6 +2,12 @@ import { useEffect, useRef } from "react";
 import useSWR, { mutate } from "swr";
 import jwt from "jsonwebtoken";
 
+interface SessionUser {
+  name: string;
+  email: string;
+  image: string;
+}
+
 interface StrapiUser {
   id: Number;
   username: String;
@@ -15,20 +21,39 @@ interface StrapiNextjsUser {
 
 export const STRAPI_ENDPOINT = "https://strapi.mdcuresearchclub.thew.pro";
 
-function loginNextjs(): Promise<StrapiNextjsUser> {
-  return fetch(`${STRAPI_ENDPOINT}/auth/local`, {
-    method: "POST",
-    body: JSON.stringify({
-      identifier: "nextjs@mdcuresearchclub.thew.pro",
-      password: process.env.STRAPI_PASSWORD,
-    }),
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-  }).then((res) => res.json());
+async function loginNextjs(): Promise<StrapiNextjsUser> {
+  function fetchNextjsUser() {
+    return fetch(`${STRAPI_ENDPOINT}/auth/local`, {
+      method: "POST",
+      body: JSON.stringify({
+        identifier: "nextjs@mdcuresearchclub.thew.pro",
+        password: process.env.STRAPI_PASSWORD,
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    }).then((res) => {
+      if (res.status !== 200) {
+        throw res;
+      }
+      return res.json();
+    });
+  }
+
+  // Try for 5 times before throw
+  for (let i = 0; i < 5; i++) {
+    try {
+      return fetchNextjsUser();
+    } catch (e) {
+      console.error(e);
+      await new Promise((r) => setTimeout(r, 50));
+    }
+  }
+
+  return fetchNextjsUser();
 }
 
-export async function loginStrapiUser(user) {
+export async function loginStrapiUser(user: SessionUser) {
   const nextjsUser = await loginNextjs();
 
   const strapiUser = await fetch(`${STRAPI_ENDPOINT}/nextjs/login`, {
