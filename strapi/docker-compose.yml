@@ -9,10 +9,8 @@ services:
       - .env.strapi
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:1337"]
-      interval: 15s
+      interval: 1m
       timeout: 5s
-      retries: 2
-      start_period: 30s
 
   postgres:
     image: postgres
