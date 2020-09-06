@@ -28,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!session) {
     res.status(401);
     res.end();
+    return;
   }
 
   const allowedQueryKeys = ["t", "k", "q"];
