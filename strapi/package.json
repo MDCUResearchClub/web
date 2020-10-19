@@ -21,7 +21,7 @@
     "strapi-plugin-email": "3.1.6",
     "strapi-plugin-upload": "3.1.6",
     "strapi-plugin-users-permissions": "3.1.6",
-    "strapi-utils": "3.1.6"
+    "strapi-utils": "3.2.4"
   },
   "author": {
     "name": "A Strapi developer"
