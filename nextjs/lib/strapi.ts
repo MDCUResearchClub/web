@@ -19,7 +19,7 @@ interface StrapiNextjsUser {
   user: StrapiUser;
 }
 
-export const STRAPI_ENDPOINT = "https://strapi.mdcuresearchclub.thew.pro";
+export const STRAPI_ENDPOINT = "https://mdcuresearchclub-strapi.docchula.com";
 
 async function loginNextjs(): Promise<StrapiNextjsUser> {
   function fetchNextjsUser() {
