@@ -27,7 +27,7 @@ export default function Hero({
           <img alt="" src={image} />
         </div>
         <div className="md:bg-blue-200 md:p-8 lg:p-12 xl:p-16 my-32 headline-container">
-          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed md:leading-relaxed lg:leading-relaxed mb-8 font-serif">
+          <h1 className="text-3xl md:text-4xl xl:text-5xl leading-relaxed md:leading-relaxed xl:leading-relaxed mb-8 font-serif">
             {heading[0]}
             <br />
             <span className="whitespace-no-wrap text-4xl md:text-5xl xl:text-6xl relative headline-highlight z-0">

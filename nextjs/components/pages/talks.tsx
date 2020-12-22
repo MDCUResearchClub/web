@@ -12,7 +12,7 @@ function ShowTalks() {
   if (strapi.data) {
     return (
       <>
-        <h1 className="text-center text-3xl md:text-4xl xl:text-5xl leading-relaxed my-2 font-serif">
+        <h1 className="text-center text-3xl md:text-4xl xl:text-5xl leading-relaxed md:leading-relaxed xl:leading-relaxed my-2 font-serif">
           Research talks
         </h1>
         <div className="container mx-auto p-2 lg:flex flex-wrap text-blue-900">
