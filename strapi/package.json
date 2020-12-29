@@ -14,7 +14,7 @@
     "pg": "^8.5.1",
     "sqlite3": "^5.0.0",
     "strapi": "3.3.4",
-    "strapi-admin": "3.3.4",
+    "strapi-admin": "3.4.1",
     "strapi-connector-bookshelf": "3.3.4",
     "strapi-plugin-content-manager": "3.3.4",
     "strapi-plugin-content-type-builder": "3.3.4",
