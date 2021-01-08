@@ -14,7 +14,7 @@
     "next": "^10.0.4",
     "next-auth": "^3.1.0",
     "plyr": "^3.6.3",
-    "postcss": "^8.2.1",
+    "postcss": "^8.2.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
