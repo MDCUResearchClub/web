@@ -37,6 +37,7 @@ jobs:
           npm run start &
           PID=$!
           sleep 10
+          curl http://localhost:1337/ | grep "The server is running successfully."
           curl http://localhost:1337/admin | grep "Strapi Admin"
           kill $PID
 
