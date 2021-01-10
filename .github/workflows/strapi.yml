@@ -27,14 +27,28 @@ jobs:
   #           docker build . --file Dockerfile
   #         fi
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          npm run start &
+          PID=$!
+          sleep 10
+          curl http://localhost:1337/ | grep "Let's get started!"
+          curl http://localhost:1337/admin | grep "Strapi Admin"
+          kill $PID
+
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     # Ensure test job passes before pushing image.
-    # needs: test
+    needs: test
 
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v2
