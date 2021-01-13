@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 import { STRAPI_ENDPOINT } from "../../lib/constant";
 import Page from "../page";
-import { useStrapi } from "../../lib/strapi";
+import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 export default function NewsPage({ staticNewsItem }) {
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function NewsPage({ staticNewsItem }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(STRAPI_ENDPOINT + "/news-articles/" + params.id);
+  const res = await fetchStrapiPublic("/news-articles/" + params.id);
 
   const staticNewsItem = res.ok ? await res.json() : null;
 
@@ -56,8 +56,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(STRAPI_ENDPOINT + "/news-articles");
-  const staticNews = await res.json();
+  const res = await fetchStrapiPublic("/news-articles");
+  const staticNews = res.ok ? await res.json() : [];
   const paths = staticNews.map((newsItem) => ({
     params: { id: String(newsItem.id) },
   }));

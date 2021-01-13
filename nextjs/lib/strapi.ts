@@ -71,7 +71,7 @@ export async function loginStrapiUser(user: SessionUser) {
   return strapiUser;
 }
 
-function strapiDataFetcher(endpoint: string, token: string) {
+function strapiDataFetcher(endpoint: string, token?: string) {
   if (!endpoint) {
     throw "No endpoint";
   }
@@ -92,14 +92,18 @@ function strapiDataFetcher(endpoint: string, token: string) {
   });
 }
 
-export async function fetchStrapiServerSide(endpoint = "/users") {
+export async function fetchStrapiServerSide(endpoint: string = "/users") {
   const nextjsUser = await loginNextjs();
 
   return strapiDataFetcher(endpoint, nextjsUser.jwt);
 }
 
-export function useStrapi(endpoint = "/users/me") {
-  function strapiUserFetcher(input, init?) {
+export async function fetchStrapiPublic(endpoint: string) {
+  return fetch(`${STRAPI_ENDPOINT}${endpoint}`);
+}
+
+export function useStrapi(endpoint: string = "/users/me") {
+  function strapiUserFetcher(input: string, init?) {
     return fetch(input, init).then((res) => {
       if (res.status === 200) {
         return res.json();
@@ -138,7 +142,13 @@ export function useStrapi(endpoint = "/users/me") {
   return { strapiUser, data: dataRef.current, userError, dataError };
 }
 
-export function strapiImageLoader({ src, width }: {src: string, width: number}) {
+export function strapiImageLoader({
+  src,
+  width,
+}: {
+  src: string;
+  width: number;
+}) {
   let size;
   // https://github.com/strapi/strapi/blob/master/packages/strapi-plugin-upload/services/image-manipulation.js
   if (width <= 245) {

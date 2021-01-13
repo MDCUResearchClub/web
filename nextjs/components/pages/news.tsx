@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { STRAPI_ENDPOINT } from "../../lib/constant";
 import Page from "../page";
-import { useStrapi } from "../../lib/strapi";
+import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 import styles from "./news.module.css";
 
@@ -90,8 +90,8 @@ export default function NewsPage({ staticNews }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(STRAPI_ENDPOINT + "/news-articles");
-  const staticNews = await res.json();
+  const res = await fetchStrapiPublic("/news-articles");
+  const staticNews = res.ok ? await res.json() : [];
 
   return {
     props: {
