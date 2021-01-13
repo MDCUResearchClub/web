@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { STRAPI_ENDPOINT } from "../lib/constant";
 import { UA_TRACKING_ID, G_TRACKING_ID } from "../lib/gtag";
 
 class MyDocument extends Document {
@@ -31,6 +32,7 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <link rel="manifest" href="/manifest.json" />
+          <link rel="preconnect" href={STRAPI_ENDPOINT} />
           <meta name="theme-color" content="#000" />
           <meta
             name="google-site-verification"
