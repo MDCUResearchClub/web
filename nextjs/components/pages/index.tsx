@@ -14,7 +14,6 @@ function LatestTalk() {
       intro="Latest talk »»"
       title={talks?.[0]?.title || "No talk"}
       href={talks?.[0]?.id ? `/talks/${talks[0]?.id}` : undefined}
-      span="1"
     />
   );
 }
@@ -26,6 +25,7 @@ function NewsIndex() {
   const newsCard = news
     ? news.map((newItem) => (
         <NewsCard
+          className="md:col-span-2"
           key={newItem.id}
           theme="light"
           title={newItem.title}
@@ -66,11 +66,11 @@ function NewsIndex() {
         </div>
       );
     }
-  } else {
+  } else if (loadingSession) {
     firstRow = (
       <div className="grid md:grid-cols-4">
-        <NewsCard theme="light" title="Loading" />
-        <NewsCard theme="light" title="Loading" />
+        <NewsCard className="md:col-span-2" title="Loading" />
+        <NewsCard className="md:col-span-2" title="Loading" />
       </div>
     );
   }

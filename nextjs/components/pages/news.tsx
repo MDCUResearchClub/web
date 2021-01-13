@@ -13,27 +13,27 @@ export function NewsCard({
   intro,
   title,
   description,
-  span = "2",
   href = "",
   image,
+  className = "",
 }: {
   theme?: "light" | "dark";
   intro?: string;
   title: string;
   description?: string;
-  span?: string;
   href?: string;
   image?: {
     url: string;
     width: number;
     height: number;
   };
+  className?: string;
 }) {
   const lightTheme = theme === "light";
   const colorClass = lightTheme ? "" : "text-white bg-blue-900";
   return (
     <div
-      className={`relative md:col-span-${span} m-2 p-2 md:p-4 border-solid border-2 border-blue-500 rounded ${colorClass} ${styles.card}`}
+      className={`relative m-2 p-2 md:p-4 border-solid border-2 border-blue-500 rounded ${colorClass} ${styles.card} ${className}`}
     >
       {intro && (
         <span className={`text-lg ${lightTheme ? "" : "text-blue-100"}`}>
@@ -49,12 +49,12 @@ export function NewsCard({
       {image && (
         <div className="absolute top-0 right-0 bottom-0 w-1/2 lg:w-3/5 overflow-hidden">
           <div className="relative h-full ml-auto">
-          <Image
-            src={STRAPI_ENDPOINT + image.url}
-            alt=""
-            layout="fill"
-            objectFit="cover"
-          />
+            <Image
+              src={STRAPI_ENDPOINT + image.url}
+              alt=""
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
         </div>
       )}
