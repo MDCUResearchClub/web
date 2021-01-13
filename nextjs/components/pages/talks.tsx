@@ -58,12 +58,12 @@ function ShowTalks() {
 }
 
 export default function TalksPage() {
-  const [session, loading] = useSession();
+  const [session, loadingSession] = useSession();
   const Router = useRouter();
   const [loadingTalk, setLoadingTalk] = useState(false);
 
   let content;
-  if (!session && !loading) {
+  if (!session && !loadingSession) {
     content = (
       <Hero
         heading={["Research Talks are", "for members."]}

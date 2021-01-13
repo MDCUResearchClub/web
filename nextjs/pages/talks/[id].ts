@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from "../../components/pages/watchTalk";
+export { default, getServerSideProps } from "../../components/pages/talkItem";
