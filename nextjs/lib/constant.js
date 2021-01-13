@@ -1,5 +1,7 @@
+const is_production = process.env.NODE_ENV === "production";
+
 export const SITE_NAME = "MDCU Research Club";
-export const SITE_ORIGIN =
-  process.env.NODE_ENV === "production"
-    ? "https://researchclub.docchula.com"
-    : "http://localhost:3000";
+export const SITE_ORIGIN = is_production
+  ? "https://researchclub.docchula.com"
+  : "http://localhost:3000";
+export const STRAPI_ENDPOINT = "https://mdcuresearchclub-strapi.docchula.com";

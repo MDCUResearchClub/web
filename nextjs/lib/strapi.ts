@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useSWR, { mutate } from "swr";
 import jwt from "jsonwebtoken";
-
+import { STRAPI_ENDPOINT } from "./constant";
 interface SessionUser {
   name: string;
   email: string;
@@ -18,8 +18,6 @@ interface StrapiNextjsUser {
   jwt: string;
   user: StrapiUser;
 }
-
-export const STRAPI_ENDPOINT = "https://mdcuresearchclub-strapi.docchula.com";
 
 async function loginNextjs(): Promise<StrapiNextjsUser> {
   function fetchNextjsUser() {
@@ -73,29 +71,39 @@ export async function loginStrapiUser(user: SessionUser) {
   return strapiUser;
 }
 
-function strapiDataFetcher(endpoint: string, token: string) {
+function strapiDataFetcher(endpoint: string, token?: string) {
   if (!endpoint) {
     throw "No endpoint";
   }
-  if (!token) {
-    throw "No token";
+
+  const headers = {};
+  if (token) {
+    // Authenticated user
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => res.json());
+    headers,
+  }).then((res) => {
+    if (!res.ok) {
+      throw res;
+    }
+    return res.json();
+  });
 }
 
-export async function fetchStrapiServerSide(endpoint = "/users") {
+export async function fetchStrapiServerSide(endpoint: string = "/users") {
   const nextjsUser = await loginNextjs();
 
   return strapiDataFetcher(endpoint, nextjsUser.jwt);
 }
 
-export function useStrapi(endpoint = "/users/me") {
-  function strapiUserFetcher(input, init?) {
+export async function fetchStrapiPublic(endpoint: string) {
+  return fetch(`${STRAPI_ENDPOINT}${endpoint}`);
+}
+
+export function useStrapi(endpoint: string = "/users/me") {
+  function strapiUserFetcher(input: string, init?) {
     return fetch(input, init).then((res) => {
       if (res.status === 200) {
         return res.json();
@@ -132,4 +140,28 @@ export function useStrapi(endpoint = "/users/me") {
   });
 
   return { strapiUser, data: dataRef.current, userError, dataError };
+}
+
+export function strapiImageLoader({
+  src,
+  width,
+}: {
+  src: string;
+  width: number;
+}) {
+  let size;
+  // https://github.com/strapi/strapi/blob/master/packages/strapi-plugin-upload/services/image-manipulation.js
+  if (width <= 245) {
+    size = "thumbnail";
+  } else if (width <= 500) {
+    size = "small";
+  } else if (width <= 750) {
+    size = "medium";
+  } else {
+    size = "large";
+  }
+  const lastSlash = src.lastIndexOf("/");
+  const path = src.substring(0, lastSlash + 1);
+  const filename = src.substring(lastSlash + 1);
+  return `${STRAPI_ENDPOINT}${path}${size}_${filename}`;
 }
