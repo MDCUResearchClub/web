@@ -11,19 +11,22 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "Title": {
+    "title": {
       "type": "string",
       "required": true
     },
-    "Public": {
+    "description": {
+      "type": "text"
+    },
+    "public": {
       "type": "boolean",
       "required": true,
       "default": false
     },
-    "Body": {
+    "body": {
       "type": "richtext"
     },
-    "Cover": {
+    "cover": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -32,7 +35,7 @@
       "plugin": "upload",
       "required": false
     },
-    "Preview": {
+    "preview": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
