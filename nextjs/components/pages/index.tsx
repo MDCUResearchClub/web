@@ -66,7 +66,7 @@ function NewsIndex() {
         </div>
       );
     }
-  } else if (loadingSession) {
+  } else {
     firstRow = (
       <div className="grid md:grid-cols-4">
         <NewsCard className="md:col-span-2" title="Loading" />
