@@ -29,7 +29,10 @@ export function NavbarAuth() {
         onClick={() => {
           setAuthStatus({ startProcessing: true, text: "Logging out" });
           localStorage.setItem("authStatus", "Logging out");
-          signOut();
+          signOut().then(() => {
+            // Fix hash bug https://github.com/nextauthjs/next-auth/issues/603
+            window.location.reload();
+          });
         }}
       >
         {authStatus.text || "Log out"}
