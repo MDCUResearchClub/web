@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import useSWR, { mutate } from "swr";
+import { useEffect } from "react";
+import useSWR from "swr";
 import jwt from "jsonwebtoken";
 import { STRAPI_ENDPOINT } from "./constant";
 interface SessionUser {
@@ -113,22 +113,26 @@ export function useStrapi(endpoint: string = "/users/me") {
     });
   }
 
-  const { data: strapiUser, error: userError } = useSWR(
+  const { data: strapiUser, error: userError, mutate: mutateUser } = useSWR(
     "/api/auth/strapi",
-    strapiUserFetcher
+    strapiUserFetcher,
+    {
+      dedupingInterval: 5 * 60 * 1000, // 5 mins
+    }
   );
 
   const { data, error: dataError } = useSWR(
-    [endpoint, strapiUser?.["jwt"]],
+    strapiUser ? [endpoint, strapiUser["jwt"]] : null,
     strapiDataFetcher
   );
 
   useEffect(() => {
     if (strapiUser?.["jwt"]) {
       const jwtDecoded = strapiUser["jwtDecoded"];
-      const timeout = setTimeout(() => {
-        mutate("/api/auth/strapi");
-      }, jwtDecoded.exp * 1000 - Date.now());
+      const timeout = setTimeout(
+        () => mutateUser(),
+        jwtDecoded.exp * 1000 - Date.now()
+      );
       return () => clearTimeout(timeout);
     }
   });
