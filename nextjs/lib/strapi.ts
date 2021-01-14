@@ -19,6 +19,8 @@ interface StrapiNextjsUser {
   user: StrapiUser;
 }
 
+let CACHED_NextjsUser = null;
+
 async function loginNextjs(): Promise<StrapiNextjsUser> {
   function fetchNextjsUser() {
     return fetch(`${STRAPI_ENDPOINT}/auth/local`, {
@@ -38,17 +40,20 @@ async function loginNextjs(): Promise<StrapiNextjsUser> {
     });
   }
 
-  // Try for 5 times before throw
-  for (let i = 0; i < 5; i++) {
-    try {
-      return await fetchNextjsUser();
-    } catch (e) {
-      console.error(e);
-      await new Promise((r) => setTimeout(r, 50));
-    }
+  if (
+    CACHED_NextjsUser &&
+    CACHED_NextjsUser.jwtDecoded.exp * 1000 > Date.now()
+  ) {
+    return Promise.resolve(CACHED_NextjsUser);
   }
 
-  return fetchNextjsUser();
+  const nextjsUser = await fetchNextjsUser();
+
+  nextjsUser.jwtDecoded = jwt.decode(nextjsUser.jwt);
+
+  CACHED_NextjsUser = nextjsUser;
+
+  return nextjsUser;
 }
 
 export async function loginStrapiUser(user: SessionUser) {
