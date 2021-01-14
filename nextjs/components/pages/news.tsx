@@ -73,6 +73,7 @@ export default function NewsPage({ staticNews }) {
         description={newItem.description}
         href={`/news/${newItem.id}`}
         image={newItem.preview}
+        className="col-span-2"
       />
     );
   }
