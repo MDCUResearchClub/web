@@ -107,8 +107,6 @@ export function useStrapi(endpoint: string = "/users/me") {
     return fetch(input, init).then((res) => {
       if (res.status === 200) {
         return res.json();
-      } else if (res.status === 401) {
-        return null;
       } else {
         throw res;
       }
@@ -125,10 +123,6 @@ export function useStrapi(endpoint: string = "/users/me") {
     strapiDataFetcher
   );
 
-  const dataRef = useRef(data);
-
-  dataRef.current = data === undefined ? dataRef.current : data;
-
   useEffect(() => {
     if (strapiUser?.["jwt"]) {
       const jwtDecoded = strapiUser["jwtDecoded"];
@@ -139,7 +133,7 @@ export function useStrapi(endpoint: string = "/users/me") {
     }
   });
 
-  return { strapiUser, data: dataRef.current, userError, dataError };
+  return { strapiUser, data, userError, dataError };
 }
 
 export function strapiImageLoader({

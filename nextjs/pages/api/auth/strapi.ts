@@ -6,7 +6,7 @@ export default async (req, res) => {
   if (session) {
     res.send(await loginStrapiUser(session.user));
   } else {
-    res.status(401);
+    res.send({});
   }
   res.end();
 };
