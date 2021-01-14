@@ -64,15 +64,15 @@ export function NewsCard({
 
 export default function NewsPage({ staticNews }) {
   const { data: news } = useStrapi("/news-articles");
-  function getNewsCard(newItem) {
+  function getNewsCard(newsItem) {
     return (
       <NewsCard
-        key={newItem.id}
+        key={newsItem.id}
         theme="light"
-        title={newItem.title}
-        description={newItem.description}
-        href={`/news/${newItem.id}`}
-        image={newItem.preview}
+        title={newsItem.title}
+        description={newsItem.description}
+        href={`/news/${newsItem.id}`}
+        image={newsItem.preview}
         className="col-span-2"
       />
     );
