@@ -14,7 +14,7 @@ export default function Hero({
   heading = [],
   image = "",
   ctaText = "",
-  ctaHref = "",
+  ctaHref = "/",
   imageClassName = "justify-end",
 }: HeroProps) {
   return (

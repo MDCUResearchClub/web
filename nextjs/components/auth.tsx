@@ -70,7 +70,7 @@ type AuthCTAProps = {
   href: string;
 };
 
-export function AuthCTA({ text = "", href = "" }: AuthCTAProps) {
+export function AuthCTA({ text = "", href = "/" }: AuthCTAProps) {
   const [session, loading] = useSession();
   const [authStatus, setAuthStatus] = useState("");
   const className =

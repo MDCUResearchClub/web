@@ -13,7 +13,7 @@ export function NewsCard({
   intro,
   title,
   description,
-  href = "",
+  href = "/",
   image,
   className = "",
 }: {
