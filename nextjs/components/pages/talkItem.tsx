@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import { useStrapi } from "../../lib/strapi";
 
-import Page from "../page";
-import Hero from "../parts/Hero";
-import VideoPlayer from "../parts/VideoPlayer";
+import Page from "../Page";
+import Hero from "../layouts/Hero";
+import VideoPlayer from "../layouts/VideoPlayer";
 
 export default function watchTalk() {
   const router = useRouter();

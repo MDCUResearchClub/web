@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/client";
 import Link from "next/link";
 
-import Page from "../page";
-import Hero from "../parts/Hero";
+import Page from "../Page";
+import Hero from "../layouts/Hero";
 import { useStrapi } from "../../lib/strapi";
 import { NewsCard } from "./news";
 
@@ -12,7 +12,7 @@ function LatestTalk() {
     <NewsCard
       theme="dark"
       intro="Latest talk »»"
-      title={talks?.[0]?.title || "No talk"}
+      title={talks?.[0]?.title}
       href={talks?.[0]?.id ? `/talks/${talks[0]?.id}` : undefined}
     />
   );
@@ -69,8 +69,8 @@ function NewsIndex() {
   } else {
     firstRow = (
       <div className="grid md:grid-cols-4">
-        <NewsCard className="md:col-span-2" title="Loading" />
-        <NewsCard className="md:col-span-2" title="Loading" />
+        <NewsCard className="md:col-span-2" />
+        <NewsCard className="md:col-span-2" />
       </div>
     );
   }
