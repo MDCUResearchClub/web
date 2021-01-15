@@ -1,13 +1,21 @@
-import { getSession } from "next-auth/client";
-import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
-import { fetchStrapiServerSide } from "../../lib/strapi";
+import { useStrapi } from "../../lib/strapi";
+
 import Page from "../page";
 import Hero from "../parts/Hero";
 import VideoPlayer from "../parts/VideoPlayer";
 
-export default function watchTalk({ talk }) {
-  if (!talk?.id) {
+export default function watchTalk() {
+  const router = useRouter();
+  const { data: talkItem, dataError } = useStrapi(
+    `/research-talks/${router.query.id}`
+  );
+  
+  if (dataError) {
+    router.replace("/talks");
+  }
+  if (!talkItem?.id) {
     return (
       <Page>
         <Hero
@@ -19,35 +27,18 @@ export default function watchTalk({ talk }) {
   }
 
   return (
-    <Page title={talk.title + " talks"}>
+    <Page title={talkItem.title + " talks"}>
       <div className="bg-black">
         <div className="container mx-auto md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <VideoPlayer videoID={talk.youtubeID} />
+          <VideoPlayer videoID={talkItem.youtubeID} />
         </div>
       </div>
       <div className="container mx-auto p-6">
-        <h1 className="text-xl md:text-2xl font-semibold mb-2">{talk.title}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold mb-2">{talkItem.title}</h1>
         <div className="prose">
-          <ReactMarkdown>{talk.description}</ReactMarkdown>
+          <ReactMarkdown>{talkItem.description}</ReactMarkdown>
         </div>
       </div>
     </Page>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async function (context) {
-  const session = await getSession(context);
-
-  if (!session) {
-    context.res.writeHead(302, { Location: "/talks" });
-    context.res.end();
-  }
-
-  const talk = await fetchStrapiServerSide(
-    `/research-talks/${context.params.id}`
-  );
-
-  return {
-    props: { session, talk },
-  };
-};
