@@ -2,9 +2,7 @@ import Page from "../page";
 import { useStrapi } from "../../lib/strapi";
 import { useSession } from "next-auth/client";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Hero from "../parts/Hero";
-import { useState, useEffect } from "react";
 
 function ShowTalks() {
   const strapi = useStrapi("/research-talks");
@@ -59,8 +57,6 @@ function ShowTalks() {
 
 export default function TalksPage() {
   const [session, loadingSession] = useSession();
-  const Router = useRouter();
-  const [loadingTalk, setLoadingTalk] = useState(false);
 
   let content;
   if (!session && !loadingSession) {
@@ -71,27 +67,9 @@ export default function TalksPage() {
         ctaText="Loading..."
       />
     );
-  } else if (loadingTalk) {
-    content = (
-      <Hero
-        heading={["Research Talks are", "loading..."]}
-        image="/images/peep2.svg"
-      />
-    );
   } else {
     content = <ShowTalks />;
   }
 
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      if (url.startsWith("/talks/")) {
-        setLoadingTalk(true);
-      }
-    };
-    Router.events.on("routeChangeStart", handleRouteChange);
-    return () => {
-      Router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, []);
   return <Page title="Research Talks">{content}</Page>;
 }

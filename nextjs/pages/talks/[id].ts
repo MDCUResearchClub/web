@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from "../../components/pages/talkItem";
+export { default } from "../../components/pages/talkItem";
