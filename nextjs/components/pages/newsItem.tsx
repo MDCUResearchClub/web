@@ -4,7 +4,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
 import { STRAPI_ENDPOINT } from "../../lib/constant";
-import Page from "../page";
+import Page from "../Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 export default function NewsPage({ staticNewsItem }) {

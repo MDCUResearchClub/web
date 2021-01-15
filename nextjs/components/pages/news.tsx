@@ -3,8 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { STRAPI_ENDPOINT } from "../../lib/constant";
-import Page from "../page";
+import Page from "../Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
+import Loading from "../lib/Loading";
 
 import styles from "./news.module.css";
 
@@ -19,7 +20,7 @@ export function NewsCard({
 }: {
   theme?: "light" | "dark";
   intro?: string;
-  title: string;
+  title?: string;
   description?: string;
   href?: string;
   image?: {
@@ -40,12 +41,19 @@ export function NewsCard({
           {intro}
         </span>
       )}
-      <Link href={href}>
-        <a className="relative block z-10 w-3/5 sm:w-3/4 lg:w-1/2">
-          <h3 className="my-4 text-xl">{title}</h3>
-          {description && <p>{description}</p>}
-        </a>
-      </Link>
+      {title && (
+        <Link href={href}>
+          <a className="relative block z-10 w-3/5 sm:w-3/4 lg:w-1/2">
+            <h3 className="my-4 text-xl">{title}</h3>
+            {description && <p>{description}</p>}
+          </a>
+        </Link>
+      )}
+      {!title && (
+        <div className="ml-4 my-2">
+          <Loading colorClass={lightTheme ? "bg-blue-600" : "bg-white"} />
+        </div>
+      )}
       {image && (
         <div className="absolute top-0 right-0 bottom-0 w-1/2 lg:w-3/5 overflow-hidden">
           <div className="relative h-full ml-auto">
