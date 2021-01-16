@@ -11,7 +11,7 @@ export default function watchTalk() {
   const { data: talkItem, dataError } = useStrapi(
     `/research-talks/${router.query.id}`
   );
-  
+
   if (dataError) {
     router.replace("/talks");
   }
@@ -34,8 +34,10 @@ export default function watchTalk() {
         </div>
       </div>
       <div className="container mx-auto p-6">
-        <h1 className="text-xl md:text-2xl font-semibold mb-2">{talkItem.title}</h1>
-        <div className="prose">
+        <h1 className="text-xl md:text-2xl font-semibold mb-2">
+          {talkItem.title}
+        </h1>
+        <div className="prose mx-auto">
           <ReactMarkdown>{talkItem.description}</ReactMarkdown>
         </div>
       </div>

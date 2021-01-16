@@ -18,7 +18,10 @@ export default function NewsPage({ staticNewsItem }) {
   const finalNewsItem = newsItem || staticNewsItem;
 
   return (
-    <Page title="News" description={finalNewsItem ? finalNewsItem.description : ""}>
+    <Page
+      title="News"
+      description={finalNewsItem ? finalNewsItem.description : ""}
+    >
       {finalNewsItem && (
         <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
           <h1 className="font-serif text-3xl mb-4 text-center">
@@ -31,11 +34,14 @@ export default function NewsPage({ staticNewsItem }) {
                 alt=""
                 width={finalNewsItem.cover.width}
                 height={finalNewsItem.cover.height}
+                layout="responsive"
               />
             </div>
           )}
-          <div className="prose">
-            <ReactMarkdown>{finalNewsItem.body}</ReactMarkdown>
+          <div className="prose mx-auto">
+            <ReactMarkdown transformImageUri={(url) => STRAPI_ENDPOINT + url}>
+              {finalNewsItem.body}
+            </ReactMarkdown>
           </div>
         </div>
       )}
