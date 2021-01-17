@@ -47,6 +47,30 @@ module.exports = {
     }
 
     const entity = await strapi.services["news-articles"].findOne(params);
+
+    const images = entity.body.matchAll(/!\[.*\]\((?<url>.*)\)/g);
+
+    const bodyImagePromises = [];
+    entity["bodyImages"] = {};
+    for (const image of images) {
+      const promise = strapi.plugins.upload.services.upload
+        .fetch({ url: image.groups.url })
+        .then((imageEntity) =>
+          sanitizeEntity(imageEntity, {
+            model: strapi.plugins.upload.models.file,
+          })
+        )
+        .then((data) => {
+          entity["bodyImages"][image.groups.url] = {
+            width: data.width,
+            height: data.height,
+          };
+        });
+      bodyImagePromises.push(promise);
+    }
+
+    await Promise.all(bodyImagePromises);
+
     return sanitizeEntity(entity, { model: strapi.models["news-articles"] });
   },
 };
