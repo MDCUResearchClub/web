@@ -31,7 +31,7 @@ export default function NewsPage({ staticNewsItem }) {
   const finalNewsItem = newsItem || staticNewsItem;
 
   const renderers = {
-    image: ImageRenderer(finalNewsItem["bodyImages"]),
+    image: ImageRenderer(finalNewsItem ? finalNewsItem["bodyImages"] : {}),
   };
 
   return (
