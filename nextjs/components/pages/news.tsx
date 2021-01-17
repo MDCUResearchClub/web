@@ -62,6 +62,7 @@ export function NewsCard({
               alt=""
               layout="fill"
               objectFit="cover"
+              sizes="25vw"
             />
           </div>
         </div>

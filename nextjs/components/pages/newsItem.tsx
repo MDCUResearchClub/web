@@ -2,10 +2,23 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import unwrapImages from "remark-unwrap-images";
 
 import { STRAPI_ENDPOINT } from "../../lib/constant";
 import Page from "../Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
+
+function ImageRenderer(bodyImages) {
+  return ({ src, alt }) => (
+    <Image
+      src={STRAPI_ENDPOINT + src}
+      width={bodyImages[src].width}
+      height={bodyImages[src].height}
+      alt={alt}
+      layout="responsive"
+    />
+  );
+}
 
 export default function NewsPage({ staticNewsItem }) {
   const router = useRouter();
@@ -16,6 +29,10 @@ export default function NewsPage({ staticNewsItem }) {
     router.replace("/news");
   }
   const finalNewsItem = newsItem || staticNewsItem;
+
+  const renderers = {
+    image: ImageRenderer(finalNewsItem["bodyImages"]),
+  };
 
   return (
     <Page
@@ -39,7 +56,7 @@ export default function NewsPage({ staticNewsItem }) {
             </div>
           )}
           <div className="prose mx-auto">
-            <ReactMarkdown transformImageUri={(url) => STRAPI_ENDPOINT + url}>
+            <ReactMarkdown renderers={renderers} plugins={[unwrapImages]}>
               {finalNewsItem.body}
             </ReactMarkdown>
           </div>
