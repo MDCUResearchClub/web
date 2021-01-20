@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.3.1",
-    "autoprefixer": "^10.2.1",
+    "autoprefixer": "^10.2.3",
     "fuse.js": "^6.4.6",
     "next": "^10.0.5",
     "next-auth": "^3.1.0",
