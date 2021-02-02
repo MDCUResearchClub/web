@@ -12,7 +12,7 @@
     "autoprefixer": "^10.2.4",
     "fuse.js": "^6.4.6",
     "next": "^10.0.6",
-    "next-auth": "^3.1.0",
+    "next-auth": "^3.2.0",
     "plyr": "^3.6.4",
     "postcss": "^8.2.4",
     "react": "^17.0.1",
