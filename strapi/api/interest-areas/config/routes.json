@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/interest-areas",
+      "handler": "interest-areas.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/interest-areas/count",
+      "handler": "interest-areas.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/interest-areas/:id",
+      "handler": "interest-areas.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/interest-areas",
+      "handler": "interest-areas.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/interest-areas/:id",
+      "handler": "interest-areas.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/interest-areas/:id",
+      "handler": "interest-areas.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
