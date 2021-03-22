@@ -19,7 +19,7 @@
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
     "remark-unwrap-images": "^2.0.0",
-    "swr": "^0.4.2",
+    "swr": "^0.5.4",
     "tailwindcss": "^2.0.3"
   },
   "devDependencies": {
