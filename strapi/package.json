@@ -10,7 +10,7 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "knex": "0.21.18",
+    "knex": "0.95.2",
     "pg": "^8.5.1",
     "sqlite3": "^5.0.2",
     "strapi": "3.5.3",
