@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/interest-areas",
-      "handler": "interest-areas.find",
+      "path": "/aois",
+      "handler": "aois.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/interest-areas/count",
-      "handler": "interest-areas.count",
+      "path": "/aois/count",
+      "handler": "aois.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/interest-areas/:id",
-      "handler": "interest-areas.findOne",
+      "path": "/aois/:id",
+      "handler": "aois.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/interest-areas",
-      "handler": "interest-areas.create",
+      "path": "/aois",
+      "handler": "aois.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/interest-areas/:id",
-      "handler": "interest-areas.update",
+      "path": "/aois/:id",
+      "handler": "aois.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/interest-areas/:id",
-      "handler": "interest-areas.delete",
+      "path": "/aois/:id",
+      "handler": "aois.delete",
       "config": {
         "policies": []
       }

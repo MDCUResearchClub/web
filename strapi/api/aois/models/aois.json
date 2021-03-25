@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "interest_areas",
+  "collectionName": "aois",
   "info": {
-    "name": "Interest Areas",
+    "name": "Area of Interests",
     "description": ""
   },
   "options": {

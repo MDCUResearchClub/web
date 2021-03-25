@@ -31,7 +31,7 @@
     },
     "area_of_interests": {
       "via": "researchers",
-      "collection": "interest-areas",
+      "collection": "aois",
       "dominant": true
     },
     "keywords": {
