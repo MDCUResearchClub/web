@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aois",
+  "info": {
+    "name": "Area of Interests",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "researchers": {
+      "collection": "researchers",
+      "via": "area_of_interests"
+    }
+  }
+}

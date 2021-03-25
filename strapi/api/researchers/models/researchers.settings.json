@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "researchers",
+  "info": {
+    "name": "Researchers",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "position_th": {
+      "type": "string"
+    },
+    "position_en": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "suffix": {
+      "type": "string"
+    },
+    "fullname_th": {
+      "type": "string"
+    },
+    "fullname_en": {
+      "type": "string"
+    },
+    "area_of_interests": {
+      "via": "researchers",
+      "collection": "aois",
+      "dominant": true
+    },
+    "keywords": {
+      "via": "researchers",
+      "collection": "keywords",
+      "dominant": true
+    },
+    "emails": {
+      "type": "component",
+      "repeatable": true,
+      "component": "email.emails"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "url.links"
+    }
+  }
+}
