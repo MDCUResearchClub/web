@@ -15,8 +15,8 @@
       "type": "string"
     },
     "researchers": {
-      "collection": "researchers",
-      "via": "area_of_interests"
+      "via": "area_of_interests",
+      "collection": "researchers"
     }
   }
 }

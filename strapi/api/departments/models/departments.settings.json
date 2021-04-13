@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "keywords",
+  "collectionName": "departments",
   "info": {
-    "name": "Keywords",
+    "name": "Departments",
     "description": ""
   },
   "options": {
@@ -14,9 +14,9 @@
     "title": {
       "type": "string"
     },
-    "researchers": {
-      "via": "keywords",
-      "collection": "researchers"
+    "divisions": {
+      "collection": "divisions",
+      "via": "department"
     }
   }
 }

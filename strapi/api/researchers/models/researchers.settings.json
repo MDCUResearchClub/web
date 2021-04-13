@@ -30,13 +30,13 @@
       "type": "string"
     },
     "area_of_interests": {
-      "via": "researchers",
       "collection": "aois",
+      "via": "researchers",
       "dominant": true
     },
     "keywords": {
-      "via": "researchers",
       "collection": "keywords",
+      "via": "researchers",
       "dominant": true
     },
     "emails": {
@@ -48,6 +48,10 @@
       "type": "component",
       "repeatable": true,
       "component": "url.links"
+    },
+    "division": {
+      "model": "divisions",
+      "via": "researchers"
     }
   }
 }
