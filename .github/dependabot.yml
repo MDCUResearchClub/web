@@ -4,7 +4,13 @@ updates:
     directory: "/nextjs/"
     schedule:
       interval: "daily"
+    labels:
+      - "nextjs"
+      - "dependencies"
   - package-ecosystem: "npm"
     directory: "/strapi/"
     schedule:
       interval: "daily"
+    labels:
+      - "strapi"
+      - "dependencies"
