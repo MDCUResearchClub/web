@@ -48,6 +48,10 @@ module.exports = {
 
     const entity = await strapi.services["news-articles"].findOne(params);
 
+    if (!entity) {
+      return null;
+    }
+
     const images = entity.body.matchAll(/!\[.*\]\((?<url>.*)\)/g);
 
     const bodyImagePromises = [];
