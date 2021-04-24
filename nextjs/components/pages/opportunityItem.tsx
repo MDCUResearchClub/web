@@ -12,7 +12,7 @@ export default function OpportunityPage() {
     `/opportunities/${router.query.id}`
   );
   if (dataError) {
-    router.replace("/");
+    router.replace("/opportunities");
   }
 
   return (
