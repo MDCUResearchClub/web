@@ -36,7 +36,7 @@ jobs:
       - run: |
           npm run start &
           PID=$!
-          curl --retry 10 http://localhost:1337/ | grep "Let's get started!"
+          curl --retry 10 --retry-connrefused http://localhost:1337/ | grep "Let's get started!"
           curl http://localhost:1337/admin | grep "Strapi Admin"
           kill $PID
 
