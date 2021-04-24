@@ -77,10 +77,6 @@ export async function loginStrapiUser(user: SessionUser) {
 }
 
 function strapiDataFetcher(endpoint: string, token?: string) {
-  if (!endpoint) {
-    throw "No endpoint";
-  }
-
   const headers = {};
   if (token) {
     // Authenticated user
@@ -127,7 +123,7 @@ export function useStrapi(endpoint: string = "/users/me") {
   );
 
   const { data, error: dataError } = useSWR(
-    strapiUser ? [endpoint, strapiUser["jwt"]] : null,
+    strapiUser && endpoint ? [endpoint, strapiUser["jwt"]] : null,
     strapiDataFetcher
   );
 

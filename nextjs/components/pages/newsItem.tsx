@@ -10,30 +10,30 @@ import Page from "../Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 function ImageRenderer(bodyImages) {
-  return ({ src, alt }) => (
-    <Image
-      src={STRAPI_ENDPOINT + src}
-      width={bodyImages[src].width}
-      height={bodyImages[src].height}
-      alt={alt}
-      layout="responsive"
-    />
-  );
+  function MarkdownImage({ src, alt }: React.ComponentPropsWithoutRef<"img">) {
+    return (
+      <Image
+        src={STRAPI_ENDPOINT + src}
+        width={bodyImages[src].width}
+        height={bodyImages[src].height}
+        alt={alt}
+        layout="responsive"
+      />
+    );
+  }
+  return MarkdownImage;
 }
 
 export default function NewsPage({ staticNewsItem }) {
   const router = useRouter();
   const { data: newsItem, dataError } = useStrapi(
-    `/news-articles/${router.query.id}`
+    router.query.id ? `/news-articles/${router.query.id}` : null
   );
+
   if (dataError) {
     router.replace("/news");
   }
   const finalNewsItem = newsItem || staticNewsItem;
-
-  const renderers = {
-    image: ImageRenderer(finalNewsItem ? finalNewsItem["bodyImages"] : {}),
-  };
 
   const ogImage =
     finalNewsItem &&
@@ -79,7 +79,14 @@ export default function NewsPage({ staticNewsItem }) {
             </div>
           )}
           <div className="prose mx-auto">
-            <ReactMarkdown renderers={renderers} plugins={[unwrapImages]}>
+            <ReactMarkdown
+              components={{
+                img: ImageRenderer(
+                  finalNewsItem ? finalNewsItem["bodyImages"] : {}
+                ),
+              }}
+              plugins={[unwrapImages]}
+            >
               {finalNewsItem.body}
             </ReactMarkdown>
           </div>
