@@ -3,9 +3,9 @@ import useSWR from "swr";
 import jwt from "jsonwebtoken";
 import { STRAPI_ENDPOINT } from "./constant";
 interface SessionUser {
-  name: string;
-  email: string;
-  image: string;
+  name?: string;
+  email?: string;
+  image?: string;
 }
 
 interface StrapiUser {
