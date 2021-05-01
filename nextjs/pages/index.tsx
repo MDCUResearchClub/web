@@ -1,10 +1,10 @@
 import { useSession } from "next-auth/client";
 import Link from "next/link";
 
-import Page from "../Page";
-import Hero from "../layouts/Hero";
-import { useStrapi } from "../../lib/strapi";
-import { NewsCard } from "./news";
+import Page from "../components/Page";
+import Hero from "../components/common/Hero";
+import NewsCard from "../components/news/NewsCard";
+import { useStrapi } from "../lib/strapi";
 
 function LatestTalk() {
   const { data: talks } = useStrapi("/research-talks?_limit=1&_sort=id:desc");
@@ -88,13 +88,9 @@ function NewsIndex() {
   );
 }
 
-export default function IndexPage({ message = "" }) {
-  const messageBox = (
-    <div className="my-12 text-center text-4xl text-yellow-600">{message}</div>
-  );
+export default function IndexPage() {
   return (
     <Page title="Home">
-      {message ? messageBox : null}
       <Hero
         heading={["Research is", "not as hard", "as you think."]}
         image="/images/front.svg"

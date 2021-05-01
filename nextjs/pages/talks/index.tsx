@@ -1,8 +1,8 @@
-import Page from "../Page";
+import Page from "../../components/Page";
 import { useStrapi } from "../../lib/strapi";
 import { useSession } from "next-auth/client";
 import Link from "next/link";
-import Hero from "../layouts/Hero";
+import Hero from "../../components/common/Hero";
 
 function ShowTalks() {
   const strapi = useStrapi("/research-talks");

@@ -3,10 +3,10 @@ import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 
 import { SITE_NAME, SITE_ORIGIN } from "../../lib/constant";
-import Page from "../Page";
+import Page from "../../components/Page";
 import { useStrapi } from "../../lib/strapi";
 
-export default function OpportunityPage() {
+export default function OpportunityItemPage() {
   const router = useRouter();
   const { data: opportunityItem, dataError } = useStrapi(
     `/opportunities/${router.query.id}`
@@ -16,9 +16,7 @@ export default function OpportunityPage() {
   }
 
   return (
-    <Page
-      title={opportunityItem ? opportunityItem.title : "Opportunities"}
-    >
+    <Page title={opportunityItem ? opportunityItem.title : "Opportunities"}>
       {opportunityItem && (
         <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
           <Head>
@@ -36,9 +34,7 @@ export default function OpportunityPage() {
             {opportunityItem.title}
           </h1>
           <div className="prose mx-auto">
-            <ReactMarkdown>
-              {opportunityItem.details}
-            </ReactMarkdown>
+            <ReactMarkdown>{opportunityItem.details}</ReactMarkdown>
           </div>
         </div>
       )}

@@ -1,15 +1,10 @@
-import { GetStaticProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
-
+import styles from "./NewsCard.module.css";
+import Loading from "../common/Loading";
 import { STRAPI_ENDPOINT } from "../../lib/constant";
-import Page from "../Page";
-import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
-import Loading from "../lib/Loading";
 
-import styles from "./news.module.css";
-
-export function NewsCard({
+export default function NewsCard({
   theme = "light",
   intro,
   title,
@@ -70,42 +65,3 @@ export function NewsCard({
     </div>
   );
 }
-
-export default function NewsPage({ staticNews }) {
-  const { data: news } = useStrapi("/news-articles");
-  function getNewsCard(newsItem) {
-    return (
-      <NewsCard
-        key={newsItem.id}
-        theme="light"
-        title={newsItem.title}
-        description={newsItem.description}
-        href={`/news/${newsItem.id}`}
-        image={newsItem.preview}
-        className="col-span-2"
-      />
-    );
-  }
-
-  const newsCard = news ? news.map(getNewsCard) : staticNews.map(getNewsCard);
-
-  return (
-    <Page title="News">
-      <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
-        <h1 className="font-serif text-3xl mb-4 text-center">News</h1>
-        <div className="grid md:grid-cols-4">{newsCard}</div>
-      </div>
-    </Page>
-  );
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetchStrapiPublic("/news-articles");
-  const staticNews = res.ok ? await res.json() : [];
-
-  return {
-    props: {
-      staticNews,
-    },
-  };
-};

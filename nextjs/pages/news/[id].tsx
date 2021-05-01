@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import unwrapImages from "remark-unwrap-images";
 
 import { SITE_NAME, SITE_ORIGIN, STRAPI_ENDPOINT } from "../../lib/constant";
-import Page from "../Page";
+import Page from "../../components/Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 function ImageRenderer(bodyImages) {
@@ -24,7 +24,7 @@ function ImageRenderer(bodyImages) {
   return MarkdownImage;
 }
 
-export default function NewsPage({ staticNewsItem }) {
+export default function NewsItemPage({ staticNewsItem }) {
   const router = useRouter();
   const { data: newsItem, dataError } = useStrapi(
     router.query.id ? `/news-articles/${router.query.id}` : null

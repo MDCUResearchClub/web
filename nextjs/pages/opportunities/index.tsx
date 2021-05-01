@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { useSession } from "next-auth/client";
 
-import Page from "../Page";
+import Page from "../../components/Page";
 import { useStrapi } from "../../lib/strapi";
-import Hero from "../layouts/Hero";
+import Hero from "../../components/common/Hero";
 
 function OpportunitiesCard({ opportunity }) {
   return (
@@ -31,10 +30,10 @@ export default function OpportunitiesPage() {
   }
 
   const opportunitiesCard = opportunities
-  ? opportunities.map((opportunity) => (
-      <OpportunitiesCard opportunity={opportunity} key={opportunity.id} />
-    ))
-  : null;
+    ? opportunities.map((opportunity) => (
+        <OpportunitiesCard opportunity={opportunity} key={opportunity.id} />
+      ))
+    : null;
 
   return (
     <Page title="Opportunities">
