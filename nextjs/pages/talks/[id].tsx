@@ -2,11 +2,11 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import { useStrapi } from "../../lib/strapi";
 
-import Page from "../Page";
-import Hero from "../layouts/Hero";
-import VideoPlayer from "../layouts/VideoPlayer";
+import Page from "../../components/Page";
+import Hero from "../../components/common/Hero";
+import VideoPlayer from "../../components/common/VideoPlayer";
 
-export default function watchTalk() {
+export default function TalkItemPage() {
   const router = useRouter();
   const { data: talkItem, dataError } = useStrapi(
     `/research-talks/${router.query.id}`

@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Nav from "./layouts/Nav";
-import Footer from "./layouts/Footer";
+import Nav from "./common/Nav";
+import Footer from "./common/Footer";
 import { SITE_NAME } from "../lib/constant";
 
 export default function Page({ title = "", description = "MDCU Research Club", children }) {
