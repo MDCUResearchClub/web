@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/client";
 import Link from "next/link";
 
 import Page from "../../components/Page";
@@ -14,10 +15,19 @@ function OpportunitiesCard({ opportunity }) {
   );
 }
 
-export default function OpportunitiesPage() {
-  const { data: opportunities, dataError } = useStrapi("/opportunities");
+function OpportunitiesIndex() {
+  const { data: opportunities } = useStrapi("/opportunities");
+  const opportunitiesCard = opportunities
+    ? opportunities.map((opportunity) => (
+        <OpportunitiesCard opportunity={opportunity} key={opportunity.id} />
+      ))
+    : null;
+  return <div className="grid md:grid-cols-2">{opportunitiesCard}</div>;
+}
 
-  if (dataError) {
+export default function OpportunitiesPage() {
+  const [session, loadingSession] = useSession();
+  if (!session && !loadingSession) {
     return (
       <Page title="Opportunities">
         <Hero
@@ -28,20 +38,13 @@ export default function OpportunitiesPage() {
       </Page>
     );
   }
-
-  const opportunitiesCard = opportunities
-    ? opportunities.map((opportunity) => (
-        <OpportunitiesCard opportunity={opportunity} key={opportunity.id} />
-      ))
-    : null;
-
   return (
     <Page title="Opportunities">
       <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
         <h1 className="font-serif text-3xl mb-4 text-center">
           Research Opportunities
         </h1>
-        <div className="grid md:grid-cols-2">{opportunitiesCard}</div>
+        <OpportunitiesIndex />
       </div>
     </Page>
   );
