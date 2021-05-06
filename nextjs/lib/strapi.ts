@@ -103,7 +103,7 @@ export async function fetchStrapiPublic(endpoint: string) {
   return fetch(`${STRAPI_ENDPOINT}${endpoint}`);
 }
 
-export function useStrapi(endpoint: string = "/users/me") {
+export function useStrapi(endpoint: string = "/users/me", swrOptions?) {
   function strapiUserFetcher(input: string, init?) {
     return fetch(input, init).then((res) => {
       if (res.status === 200) {
@@ -124,7 +124,8 @@ export function useStrapi(endpoint: string = "/users/me") {
 
   const { data, error: dataError } = useSWR(
     strapiUser && endpoint ? [endpoint, strapiUser["jwt"]] : null,
-    strapiDataFetcher
+    strapiDataFetcher,
+    swrOptions
   );
 
   useEffect(() => {

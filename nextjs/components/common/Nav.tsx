@@ -13,6 +13,7 @@ export default function Nav() {
     ["/news", "News"],
     ["/talks", "Research Talks"],
     ["/opportunities", "Opportunities"],
+    ["/researchers", "Researchers"],
   ];
 
   return (
