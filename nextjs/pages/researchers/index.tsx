@@ -5,6 +5,8 @@ import Page from "../../components/Page";
 import Hero from "../../components/common/Hero";
 import { useStrapi } from "../../lib/strapi";
 import Card from "../../components/researcher/Card";
+import Loading from "../../components/common/Loading";
+import Details from "../../components/researcher/Details";
 
 function DepartmentsIndex() {
   const {
@@ -17,6 +19,7 @@ function DepartmentsIndex() {
     <section>
       <h2 className="text-2xl mb-2">Departments</h2>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
+        {!departments && <Loading colorClass="bg-blue-600" />}
         {departments &&
           departments
             .filter((department) => department.title)
@@ -60,19 +63,36 @@ function SearchResults() {
           .join("&")
       : "";
 
-  const { data: researchers = [] } = useStrapi(
+  const { data: researchers } = useStrapi(
     router.query.department && division ? `/researchers?${division}` : null
+  );
+
+  if (researchers === undefined) {
+    return <Loading colorClass="bg-blue-600" />;
+  }
+
+  if (researchers.length === 0) {
+    return null;
+  }
+
+  const activeId = router.query.detail || researchers[0].id;
+  const activeResearcher = researchers.find(
+    (researcher) => activeId == researcher.id
   );
   return (
     <section className="max-w-screen-lg mx-auto flex">
       <div className="space-y-4 w-1/2">
         {researchers.map((researcher) => (
-          <Card researcher={researcher} key={researcher.id} />
+          <Card
+            researcher={researcher}
+            key={researcher.id}
+            active={activeId == researcher.id}
+          />
         ))}
       </div>
       <div className="w-1/2">
         <div className="sticky top-0 p-8">
-          {researchers.length > 0 && (router.query.detail || researchers[0].id)}
+          <Details researcher={activeResearcher} />
         </div>
       </div>
     </section>
@@ -89,7 +109,7 @@ function SearchBox() {
 
   return (
     <section className="mb-4">
-      {department.length > 0 && <div>Deparment : {department[0].title}</div>}
+      {department.length > 0 && <div>Department : {department[0].title || "Others"}</div>}
     </section>
   );
 }
