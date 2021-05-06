@@ -81,7 +81,11 @@ function SearchResults() {
   );
   return (
     <section className="max-w-screen-lg mx-auto flex">
-      <div className="space-y-4 w-1/2">
+      <div
+        className={`space-y-4 w-full md:w-1/2 ${
+          router.query.detail ? "hidden md:block" : ""
+        }`}
+      >
         {researchers.map((researcher) => (
           <Card
             researcher={researcher}
@@ -90,7 +94,11 @@ function SearchResults() {
           />
         ))}
       </div>
-      <div className="w-1/2">
+      <div
+        className={`${
+          router.query.detail ? "" : "hidden md:block"
+        } w-full md:w-1/2`}
+      >
         <div className="sticky top-0 p-8">
           <Details researcher={activeResearcher} />
         </div>
@@ -109,7 +117,9 @@ function SearchBox() {
 
   return (
     <section className="mb-4">
-      {department.length > 0 && <div>Department : {department[0].title || "Others"}</div>}
+      {department.length > 0 && (
+        <div>Department : {department[0].title || "Others"}</div>
+      )}
     </section>
   );
 }
