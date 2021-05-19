@@ -13,15 +13,15 @@
     "knex": "0.21.18",
     "pg": "^8.6.0",
     "sqlite3": "^5.0.2",
-    "strapi": "3.6.0",
-    "strapi-admin": "3.6.0",
-    "strapi-connector-bookshelf": "3.6.0",
-    "strapi-plugin-content-manager": "3.6.0",
-    "strapi-plugin-content-type-builder": "3.6.0",
-    "strapi-plugin-email": "3.6.0",
-    "strapi-plugin-upload": "3.6.0",
-    "strapi-plugin-users-permissions": "3.6.0",
-    "strapi-utils": "3.6.0"
+    "strapi": "3.6.2",
+    "strapi-admin": "3.6.2",
+    "strapi-connector-bookshelf": "3.6.2",
+    "strapi-plugin-content-manager": "3.6.2",
+    "strapi-plugin-content-type-builder": "3.6.2",
+    "strapi-plugin-email": "3.6.2",
+    "strapi-plugin-upload": "3.6.2",
+    "strapi-plugin-users-permissions": "3.6.2",
+    "strapi-utils": "3.6.2"
   },
   "author": {
     "name": "A Strapi developer"
