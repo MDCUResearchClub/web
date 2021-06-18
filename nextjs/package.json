@@ -20,7 +20,7 @@
     "react-markdown": "^6.0.2",
     "remark-unwrap-images": "^2.1.0",
     "swr": "^0.5.6",
-    "tailwindcss": "^2.1.4"
+    "tailwindcss": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^14.17.3",
