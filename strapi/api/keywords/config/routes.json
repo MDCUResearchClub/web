@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/keywords/top",
+      "handler": "keywords.top",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/keywords/count",
       "handler": "keywords.count",
       "config": {
