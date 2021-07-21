@@ -1,21 +1,21 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useStrapi } from "../../lib/strapi";
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useStrapi } from "../../lib/strapi"
 
 export default function Card({ researcher, active = false }) {
-  const router = useRouter();
+  const router = useRouter()
   const { data: department = [] } = useStrapi(
     researcher?.division?.department
       ? `/departments?id=${researcher.division.department}`
       : null
-  );
+  )
 
   const href = {
     pathname: router.pathname,
     query: { ...router.query, detail: researcher.id },
-  };
+  }
 
-  const isMobile = window && window.innerWidth < 768;
+  const isMobile = window && window.innerWidth < 768
   return (
     <Link href={href} scroll={isMobile}>
       <article
@@ -43,9 +43,9 @@ export default function Card({ researcher, active = false }) {
           <div className="font-medium">
             {department.length > 0 && department[0].title}
           </div>
-          <div className="opacity-75 text-sm">{researcher.division.title}</div>
+          <div className="opacity-75 text-sm">{researcher.division?.title}</div>
         </div>
       </article>
     </Link>
-  );
+  )
 }
