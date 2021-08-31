@@ -11,7 +11,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "autoprefixer": "^10.3.3",
     "fuse.js": "^6.4.6",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-auth": "^3.29.0",
     "plyr": "^3.6.8",
     "postcss": "^8.3.6",
