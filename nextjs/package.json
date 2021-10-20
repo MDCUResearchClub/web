@@ -9,22 +9,22 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.4.1",
-    "autoprefixer": "^10.3.3",
+    "autoprefixer": "^10.3.7",
     "fuse.js": "^6.4.6",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-auth": "^3.29.0",
-    "plyr": "^3.6.8",
-    "postcss": "^8.3.6",
+    "plyr": "^3.6.9",
+    "postcss": "^8.3.9",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^7.0.1",
     "remark-unwrap-images": "^3.0.0",
-    "swr": "^1.0.0",
-    "tailwindcss": "^2.2.8"
+    "swr": "^1.0.1",
+    "tailwindcss": "^2.2.17"
   },
   "devDependencies": {
-    "@types/node": "^14.17.12",
-    "@types/react": "^17.0.19",
-    "typescript": "^4.4.2"
+    "@types/node": "^14.17.27",
+    "@types/react": "^17.0.30",
+    "typescript": "^4.4.4"
   }
 }
