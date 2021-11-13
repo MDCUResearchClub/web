@@ -17,6 +17,7 @@ interface StrapiUser {
 interface StrapiNextjsUser {
   jwt: string;
   user: StrapiUser;
+  jwtDecoded: any;
 }
 
 let CACHED_NextjsUser = null;
@@ -47,7 +48,7 @@ async function loginNextjs(): Promise<StrapiNextjsUser> {
     return Promise.resolve(CACHED_NextjsUser);
   }
 
-  const nextjsUser = await fetchNextjsUser();
+  const nextjsUser: StrapiNextjsUser = await fetchNextjsUser();
 
   nextjsUser.jwtDecoded = jwt.decode(nextjsUser.jwt);
 
@@ -114,13 +115,13 @@ export function useStrapi(endpoint: string = "/users/me", swrOptions?) {
     });
   }
 
-  const { data: strapiUser, error: userError, mutate: mutateUser } = useSWR(
-    "/api/auth/strapi",
-    strapiUserFetcher,
-    {
-      dedupingInterval: 5 * 60 * 1000, // 5 mins
-    }
-  );
+  const {
+    data: strapiUser,
+    error: userError,
+    mutate: mutateUser,
+  } = useSWR("/api/auth/strapi", strapiUserFetcher, {
+    dedupingInterval: 5 * 60 * 1000, // 5 mins
+  });
 
   const { data, error: dataError } = useSWR(
     strapiUser && endpoint ? [endpoint, strapiUser["jwt"]] : null,
