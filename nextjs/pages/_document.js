@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { STRAPI_ENDPOINT } from "../lib/constant";
-import { UA_TRACKING_ID, G_TRACKING_ID } from "../lib/gtag";
+import { G_TRACKING_ID } from "../lib/gtag";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -40,7 +40,7 @@ class MyDocument extends Document {
           />
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${UA_TRACKING_ID}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${G_TRACKING_ID}`}
           />
           <script
             dangerouslySetInnerHTML={{
@@ -48,9 +48,6 @@ class MyDocument extends Document {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
-            gtag('config', '${UA_TRACKING_ID}');
-            gtag('config', '${G_TRACKING_ID}');
           `,
             }}
           />

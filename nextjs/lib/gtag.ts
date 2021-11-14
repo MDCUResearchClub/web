@@ -9,9 +9,7 @@ export const config = () => {
   (<any>window).gtag("config", G_TRACKING_ID);
 };
 
-export const pageview = () => {
-  (<any>window).gtag("event", "page_view");
-};
+export const pageview = config;
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
 export const event = ({ action, category, label, value }) => {
