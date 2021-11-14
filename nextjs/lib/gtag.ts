@@ -4,14 +4,13 @@ export const G_TRACKING_ID =
   process.env.NODE_ENV === "production" ? "G-HDHM4V8SR6" : "G-G832CFVLYM";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const pageview = (url) => {
-  (<any>window).gtag("config", UA_TRACKING_ID, {
-    page_path: url,
-  });
+export const config = () => {
+  (<any>window).gtag("config", UA_TRACKING_ID);
+  (<any>window).gtag("config", G_TRACKING_ID);
+};
 
-  (<any>window).gtag("config", G_TRACKING_ID, {
-    page_path: url,
-  });
+export const pageview = () => {
+  (<any>window).gtag("event", "page_view");
 };
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events

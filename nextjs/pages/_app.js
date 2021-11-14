@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import Router from "next/router";
 import { Provider as AuthProvider } from "next-auth/client";
-import { pageview } from "../lib/gtag";
+import { pageview, config as gtagConfig } from "../lib/gtag";
 import "../lib/globals.css";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
-    const handleRouteChange = (url) => {
-      pageview(url);
+    gtagConfig();
+    const handleRouteChange = () => {
+      pageview();
     };
     Router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
