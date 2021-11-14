@@ -7,6 +7,7 @@ import "../lib/globals.css";
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     gtagConfig();
+    pageview();
     const handleRouteChange = () => {
       pageview();
     };
