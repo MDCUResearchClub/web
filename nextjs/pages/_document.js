@@ -33,6 +33,12 @@ class MyDocument extends Document {
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <link rel="manifest" href="/manifest.json" />
           <link rel="preconnect" href={STRAPI_ENDPOINT} />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+          />
           <meta name="theme-color" content="#000" />
           <meta
             name="google-site-verification"
