@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import useSWR from "swr";
-import jwt from "jsonwebtoken";
+import { Buffer } from "buffer";
 import { STRAPI_ENDPOINT } from "./constant";
+
+function decodeJWT(jwt: string) {
+  const payloadString = jwt.split(".")[1];
+  return JSON.parse(Buffer.from(payloadString, "base64").toString("binary"));
+}
+
 interface SessionUser {
   name?: string;
   email?: string;
@@ -50,7 +56,7 @@ async function loginNextjs(): Promise<StrapiNextjsUser> {
 
   const nextjsUser: StrapiNextjsUser = await fetchNextjsUser();
 
-  nextjsUser.jwtDecoded = jwt.decode(nextjsUser.jwt);
+  nextjsUser.jwtDecoded = decodeJWT(nextjsUser.jwt);
 
   CACHED_NextjsUser = nextjsUser;
 
@@ -72,7 +78,7 @@ export async function loginStrapiUser(user: SessionUser) {
     },
   }).then((res) => res.json());
 
-  strapiUser.jwtDecoded = jwt.decode(strapiUser.jwt);
+  strapiUser.jwtDecoded = decodeJWT(strapiUser.jwt);
 
   return strapiUser;
 }

@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export function NavbarAuth() {
-  const [session, sessionLoading] = useSession();
+  const { data: session, status } = useSession();
   const [authStatus, setAuthStatus] = useState({
     startProcessing: false,
     text: "",
@@ -42,12 +42,12 @@ export function NavbarAuth() {
 
   useEffect(() => {
     const localAuthStatus = localStorage.getItem("authStatus");
-    if (!authStatus.text && localAuthStatus && sessionLoading) {
+    if (!authStatus.text && localAuthStatus && status === "loading") {
       setAuthStatus({ startProcessing: false, text: localAuthStatus });
     } else if (
       authStatus.text &&
       !authStatus.startProcessing &&
-      !sessionLoading
+      status !== "loading"
     ) {
       setAuthStatus({ startProcessing: false, text: "" });
       localStorage.removeItem("authStatus");
@@ -71,21 +71,21 @@ type AuthCTAProps = {
 };
 
 export function AuthCTA({ text = "", href = "/" }: AuthCTAProps) {
-  const [session, loading] = useSession();
+  const { status } = useSession();
   const [authStatus, setAuthStatus] = useState("");
   const className =
     "inline-block rounded-md text-center text-xl md:text-2xl text-white bg-indigo-700 px-12 md:px-auto md:w-full py-2";
 
   useEffect(() => {
     const localAuthStatus = localStorage.getItem("authStatus");
-    if (localAuthStatus && loading) {
+    if (localAuthStatus && status === "loading") {
       setAuthStatus(localAuthStatus);
-    } else if (authStatus && !localAuthStatus && !loading) {
+    } else if (authStatus && !localAuthStatus && status !== "loading") {
       setAuthStatus("");
     }
   });
 
-  if (session) {
+  if (status === "authenticated") {
     if (href) {
       return (
         <Link href={href}>

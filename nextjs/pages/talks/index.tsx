@@ -1,6 +1,6 @@
 import Page from "../../components/Page";
 import { useStrapi } from "../../lib/strapi";
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Hero from "../../components/common/Hero";
 
@@ -56,10 +56,10 @@ function ShowTalks() {
 }
 
 export default function TalksPage() {
-  const [session, loadingSession] = useSession();
+  const { status } = useSession();
 
   let content;
-  if (!session && !loadingSession) {
+  if (status !== "authenticated") {
     content = (
       <Hero
         heading={["Research Talks are", "for members."]}

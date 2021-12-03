@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import Page from "../components/Page";
@@ -19,7 +19,7 @@ function LatestTalk() {
 }
 
 function NewsIndex() {
-  const [session, loadingSession] = useSession();
+  const { data: session, status } = useSession();
   const { data: news } = useStrapi("/news-articles?_limit=4");
 
   const newsCard = news
@@ -36,10 +36,15 @@ function NewsIndex() {
       ))
     : null;
 
-  let firstRow;
+  let firstRow = (
+    <div className="grid md:grid-cols-4">
+      <NewsCard className="md:col-span-2" />
+      <NewsCard className="md:col-span-2" />
+    </div>
+  );
   let secondRow;
-  if (!loadingSession && news) {
-    if (session) {
+  if (news) {
+    if (status === "authenticated") {
       firstRow = (
         <div className="grid md:grid-cols-3">
           {news[0] && newsCard[0]}
@@ -52,7 +57,7 @@ function NewsIndex() {
           {news[2] && newsCard[2]}
         </div>
       );
-    } else {
+    } else if (status === "unauthenticated") {
       firstRow = (
         <div className="grid md:grid-cols-4">
           {news[0] && newsCard[0]}
@@ -66,13 +71,6 @@ function NewsIndex() {
         </div>
       );
     }
-  } else {
-    firstRow = (
-      <div className="grid md:grid-cols-4">
-        <NewsCard className="md:col-span-2" />
-        <NewsCard className="md:col-span-2" />
-      </div>
-    );
   }
 
   return (

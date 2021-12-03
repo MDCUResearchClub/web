@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import Page from "../../components/Page";
@@ -26,8 +26,8 @@ function OpportunitiesIndex() {
 }
 
 export default function OpportunitiesPage() {
-  const [session, loadingSession] = useSession();
-  if (!session && !loadingSession) {
+  const { status } = useSession();
+  if (status !== "authenticated") {
     return (
       <Page title="Opportunities">
         <Hero
