@@ -1,7 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 import { STRAPI_ENDPOINT } from "../lib/constant";
-import { G_TRACKING_ID } from "../lib/gtag";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -48,19 +46,6 @@ class MyDocument extends Document {
           <meta
             name="google-site-verification"
             content="IZCRXZBnxXQG-WklRrjvGosyO69S8WLnMvyj6OChCkQ"
-          />
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${G_TRACKING_ID}`}
-            strategy="lazyOnload"
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-          `,
-            }}
           />
         </Head>
         <body>
