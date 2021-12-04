@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { STRAPI_ENDPOINT } from "../lib/constant";
 import { G_TRACKING_ID } from "../lib/gtag";
 
@@ -48,9 +49,9 @@ class MyDocument extends Document {
             name="google-site-verification"
             content="IZCRXZBnxXQG-WklRrjvGosyO69S8WLnMvyj6OChCkQ"
           />
-          <script
-            async
+          <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${G_TRACKING_ID}`}
+            strategy="lazyOnload"
           />
           <script
             dangerouslySetInnerHTML={{
