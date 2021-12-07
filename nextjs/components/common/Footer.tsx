@@ -14,15 +14,7 @@ export default function Footer() {
           <span className="whitespace-no-wrap">Bangkok, 10330</span>
         </address>
       </div>
-      <div>
-        <a href="https://vercel.com/">
-          <img
-            className="mx-auto"
-            src="/images/powered-by-vercel.svg"
-            alt="powered by vercel"
-          />
-        </a>
-      </div>
+      <div></div>
     </footer>
   );
 }
