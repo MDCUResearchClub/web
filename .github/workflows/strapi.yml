@@ -4,7 +4,6 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   REGISTRY: ghcr.io
-  PATH: strapi
   IMAGE_NAME: ${{ github.repository }}/strapi
 
 defaults:
@@ -49,7 +48,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ${{ env.PATH }}
+          context: strapi
           push: true
           cache-from: type=registry,ref=${{ fromJSON(steps.meta.outputs.json).tags[0] }}
           cache-to: type=inline
