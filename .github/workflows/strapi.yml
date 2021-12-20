@@ -5,7 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 env:
   REGISTRY: ghcr.io
   PATH: strapi
-  IMAGE_NAME: ${{ github.repository }}/${{ env.PATH }}
+  IMAGE_NAME: ${{ github.repository }}/strapi
 
 defaults:
   run:
