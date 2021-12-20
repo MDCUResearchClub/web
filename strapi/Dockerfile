@@ -4,7 +4,7 @@ WORKDIR /strapi
 
 ENV NODE_ENV production
 
-COPY ./package.json ./yarn.lock ./
+COPY ./package.json ./package-lock.json ./
 
 RUN yarn install
 
