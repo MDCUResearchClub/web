@@ -3,6 +3,7 @@ name: Strapi CI
 on: [push, pull_request, workflow_dispatch]
 
 env:
+  REGISTRY: ghcr.io
   IMAGE_NAME: strapi
 
 defaults:
@@ -10,29 +11,14 @@ defaults:
     working-directory: strapi
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  # test:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Run tests
-  #       run: |
-  #         if [ -f docker-compose.test.yml ]; then
-  #           docker-compose --file docker-compose.test.yml build
-  #           docker-compose --file docker-compose.test.yml run sut
-  #         else
-  #           docker build . --file Dockerfile
-  #         fi
-
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run build
+        env:
+          NODE_ENV: production
       - run: |
           npm run start &
           PID=$!
@@ -40,43 +26,30 @@ jobs:
           curl -s http://localhost:1337/admin | grep "Strapi Admin"
           kill $PID
 
-  # # Push image to GitHub Packages.
-  # # See also https://docs.docker.com/docker-hub/builds/
-  # push:
-  #   # Ensure test job passes before pushing image.
-  #   needs: test
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    outputs:
+      meta: ${{ steps.meta.outputs.json }}
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Build image
-  #       run: docker build . --file Dockerfile --tag $IMAGE_NAME
-
-  #     - name: Log into GitHub Container Registry
-  #     # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-  #       run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
-
-  #     - name: Push image to GitHub Container Registry
-  #       run: |
-  #         IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-
-  #         # Change all uppercase to lowercase
-  #         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-  #         # Strip git ref prefix from version
-  #         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-  #         # Strip "v" prefix from tag name
-  #         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-  #         # Use Docker `latest` tag convention
-  #         [ "$VERSION" == "main" ] && VERSION=latest
-
-  #         echo IMAGE_ID=$IMAGE_ID
-  #         echo VERSION=$VERSION
-
-  #         docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-  #         docker push $IMAGE_ID:$VERSION
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          cache-from: type=registry,ref=${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          cache-to: type=inline
+          no-cache: ${{ github.event_name == 'workflow_dispatch' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

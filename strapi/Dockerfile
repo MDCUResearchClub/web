@@ -1,14 +1,14 @@
 FROM node:12
 
-WORKDIR /mdcuresearchclub
+WORKDIR /strapi
+
+ENV NODE_ENV production
 
 COPY ./package.json ./yarn.lock ./
 
 RUN yarn install
 
 COPY . .
-
-ENV NODE_ENV production
 
 RUN yarn build
 
