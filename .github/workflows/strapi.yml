@@ -9,7 +9,7 @@ env:
 
 defaults:
   run:
-    working-directory: ${{ env.PATH }}
+    working-directory: strapi
 
 jobs:
   test:
