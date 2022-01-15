@@ -4,7 +4,7 @@
 
 .headlineHighlight::after {
   content: "";
-  @apply absolute inset-0 bg-yellow-200 transform -skew-x-12;
+  @apply absolute inset-0 bg-yellow-200 -skew-x-12;
   z-index: -1;
 }
 
@@ -23,7 +23,7 @@
 
 @screen md {
   .headlineImg {
-    @apply transform scale-x-100;
+    @apply scale-x-100;
   }
   @keyframes headlineImg {
     from {
