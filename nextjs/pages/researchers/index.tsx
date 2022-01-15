@@ -97,12 +97,20 @@ function SearchBox() {
   return (
     <section className="mb-4 text-xl font-bold text-center">
       {department.length > 0 && (
-        <div className="text-blue-800">
-          Department : {department[0].title || "Others"}
-        </div>
+        <>
+          Department :{" "}
+          <span className="text-blue-800 capitalize">
+            {department[0].title || "Others"}
+          </span>
+        </>
       )}
       {keyword.length > 0 && (
-        <div>Keyword : {keyword[0].title || "Others"}</div>
+        <>
+          Keyword :{" "}
+          <span className="text-blue-800 capitalize">
+            {keyword[0].title || "Others"}
+          </span>
+        </>
       )}
     </section>
   );
