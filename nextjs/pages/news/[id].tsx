@@ -85,7 +85,7 @@ export default function NewsItemPage({ staticNewsItem }) {
                   finalNewsItem ? finalNewsItem["bodyImages"] : {}
                 ),
               }}
-              plugins={[unwrapImages]}
+              remarkPlugins={[unwrapImages]}
             >
               {finalNewsItem.body}
             </ReactMarkdown>
