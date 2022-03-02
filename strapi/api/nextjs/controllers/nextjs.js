@@ -40,14 +40,16 @@ module.exports = {
       if (role) {
         roleId = role.id;
       } else {
-        const defaultRoleType = await strapi
-          .store({
-            environment: "",
-            type: "plugin",
-            name: "users-permissions",
-            key: "advanced",
-          })
-          .get().default_role;
+        const defaultRoleType = (
+          await strapi
+            .store({
+              environment: "",
+              type: "plugin",
+              name: "users-permissions",
+              key: "advanced",
+            })
+            .get()
+        ).default_role;
         const defaultRole = await strapi
           .query("role", "users-permissions")
           .findOne({ type: defaultRoleType });
@@ -66,7 +68,10 @@ module.exports = {
       });
     }
 
-    const jwt = usersPlugin.services.jwt.issue({ id: user.id }, {"expiresIn": "15m"});
+    const jwt = usersPlugin.services.jwt.issue(
+      { id: user.id },
+      { expiresIn: "15m" }
+    );
 
     return {
       jwt,
