@@ -14,20 +14,6 @@ interface SessionUser {
   image?: string;
 }
 
-interface StrapiUser {
-  id: Number;
-  username: String;
-  email: String;
-}
-
-interface StrapiNextjsUser {
-  jwt: string;
-  user: StrapiUser;
-  jwtDecoded: any;
-}
-
-let CACHED_NextjsUser = null;
-
 export async function loginStrapiUser(user: SessionUser) {
   const strapiUser = await fetch(`${STRAPI_ENDPOINT}/nextjs/login`, {
     method: "POST",
