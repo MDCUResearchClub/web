@@ -28,44 +28,7 @@ interface StrapiNextjsUser {
 
 let CACHED_NextjsUser = null;
 
-async function loginNextjs(): Promise<StrapiNextjsUser> {
-  function fetchNextjsUser() {
-    return fetch(`${STRAPI_ENDPOINT}/auth/local`, {
-      method: "POST",
-      body: JSON.stringify({
-        identifier: "nextjs@mdcuresearchclub.thew.pro",
-        password: process.env.STRAPI_PASSWORD,
-      }),
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    }).then((res) => {
-      if (res.status !== 200) {
-        throw res;
-      }
-      return res.json();
-    });
-  }
-
-  if (
-    CACHED_NextjsUser &&
-    CACHED_NextjsUser.jwtDecoded.exp * 1000 > Date.now()
-  ) {
-    return Promise.resolve(CACHED_NextjsUser);
-  }
-
-  const nextjsUser: StrapiNextjsUser = await fetchNextjsUser();
-
-  nextjsUser.jwtDecoded = decodeJWT(nextjsUser.jwt);
-
-  CACHED_NextjsUser = nextjsUser;
-
-  return nextjsUser;
-}
-
 export async function loginStrapiUser(user: SessionUser) {
-  const nextjsUser = await loginNextjs();
-
   const strapiUser = await fetch(`${STRAPI_ENDPOINT}/nextjs/login`, {
     method: "POST",
     body: JSON.stringify({
@@ -73,10 +36,15 @@ export async function loginStrapiUser(user: SessionUser) {
       email: user.email,
     }),
     headers: {
-      Authorization: `Bearer ${nextjsUser.jwt}`,
       "Content-Type": "application/json; charset=utf-8",
+      nextjs: process.env.STRAPI_TOKEN,
     },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (res.status !== 200) {
+      throw res;
+    }
+    return res.json();
+  });
 
   strapiUser.jwtDecoded = decodeJWT(strapiUser.jwt);
 
@@ -101,9 +69,17 @@ function strapiDataFetcher(endpoint: string, token?: string) {
 }
 
 export async function fetchStrapiServerSide(endpoint: string = "/users") {
-  const nextjsUser = await loginNextjs();
-
-  return strapiDataFetcher(endpoint, nextjsUser.jwt);
+  return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      nextjs: process.env.STRAPI_TOKEN,
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      throw res;
+    }
+    return res.json();
+  });
 }
 
 export async function fetchStrapiPublic(endpoint: string) {
