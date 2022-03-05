@@ -69,7 +69,7 @@ export async function fetchStrapiServerSide(endpoint: string = "/users") {
 }
 
 export async function fetchStrapiPublic(endpoint: string) {
-  return fetch(`${STRAPI_ENDPOINT}${endpoint}`);
+  return await fetch(`${STRAPI_ENDPOINT}${endpoint}`);
 }
 
 export function useStrapi(endpoint: string = "/users/me", swrOptions?) {

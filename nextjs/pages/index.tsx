@@ -1,10 +1,12 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+import { SWRConfig } from "swr";
 
 import Page from "../components/Page";
 import Hero from "../components/common/Hero";
 import NewsCard from "../components/news/NewsCard";
-import { useStrapi } from "../lib/strapi";
+import { useStrapi, fetchStrapiPublic } from "../lib/strapi";
 
 function LatestTalk() {
   const { data: talks } = useStrapi("/research-talks?_limit=1&_sort=id:desc");
@@ -19,7 +21,7 @@ function LatestTalk() {
 }
 
 function NewsIndex() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { data: news } = useStrapi("/news-articles?_limit=4");
 
   const newsCard = news
@@ -86,17 +88,36 @@ function NewsIndex() {
   );
 }
 
-export default function IndexPage() {
+export default function IndexPage({ fallbackData }) {
   return (
-    <Page title="Home">
-      <Hero
-        heading={["Research is", "not as hard", "as you think."]}
-        image="/images/front.svg"
-        ctaText="Watch Research Talks"
-        ctaHref="/talks"
-        imageClassName="justify-center"
-      />
-      <NewsIndex />
-    </Page>
+    <SWRConfig value={{ fallback: fallbackData }}>
+      <Page title="Home">
+        <Hero
+          heading={["Research is", "not as hard", "as you think."]}
+          image="/images/front.svg"
+          ctaText="Watch Research Talks"
+          ctaHref="/talks"
+          imageClassName="justify-center"
+        />
+        <NewsIndex />
+      </Page>
+    </SWRConfig>
   );
 }
+
+export const getStaticProps: GetStaticProps = async function (context) {
+  const talks = await fetchStrapiPublic(
+    "/research-talks?_limit=1&_sort=id:desc"
+  ).then((res) => (res.ok ? res.json() : null));
+  const news = await fetchStrapiPublic("/news-articles?_limit=4").then((res) =>
+    res.ok ? res.json() : null
+  );
+  return {
+    props: {
+      fallbackData: {
+        "/research-talks?_limit=1&_sort=id:desc": talks,
+        "/news-articles?_limit=4": news,
+      },
+    },
+  };
+};
