@@ -1,14 +1,12 @@
 import { useRef } from "react";
 import { GetStaticProps } from "next";
 import { SWRConfig } from "swr";
-import { useSession } from "next-auth/react";
 
 import Page from "../../components/Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 import NewsCard from "../../components/news/NewsCard";
 
 function NewsGallery() {
-  const { status } = useSession();
   const { data: news } = useStrapi("/news-articles", {
     isPublic: true,
   });

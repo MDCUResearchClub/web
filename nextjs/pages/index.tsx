@@ -61,7 +61,7 @@ function NewsIndex() {
           {news[2] && newsCard[2]}
         </div>
       );
-    } else if (status === "unauthenticated") {
+    } else {
       firstRow = (
         <div className="grid md:grid-cols-4">
           {news[0] && newsCard[0]}
