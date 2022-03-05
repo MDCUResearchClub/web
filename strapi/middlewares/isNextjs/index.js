@@ -1,6 +1,14 @@
 module.exports = (strapi) => {
   return {
     initialize() {
+      // verify permission with "nextjs.isNextjs" policy
+      // source: packages/strapi-plugin-users-permissions/middlewares/users-permissions/index.js
+      strapi.config.routes.forEach((route) => {
+        if (route.config["policies"]) {
+          route.config.policies.unshift("nextjs.isNextjs");
+        }
+      });
+
       strapi.app.use(async (ctx, next) => {
         // request has "nextjs" header
         // https://stackoverflow.com/questions/3561381/custom-http-headers-naming-conventions
@@ -16,27 +24,6 @@ module.exports = (strapi) => {
             ].services.user.fetch({
               email: "nextjs@mdcuresearchclub.thew.pro",
             });
-
-            // verify permission
-            // source: packages/strapi-plugin-users-permissions/config/policies/permissions.js
-            const role = ctx.state.user.role;
-            const route = ctx.request.route;
-            const permission = await strapi
-              .query("permission", "users-permissions")
-              .findOne(
-                {
-                  role: role.id,
-                  type: route.plugin || "application",
-                  controller: route.controller,
-                  action: route.action,
-                  enabled: true,
-                },
-                []
-              );
-
-            if (!permission) {
-              return ctx.forbidden("You're not Nextjs!");
-            }
 
             return await next();
           }
