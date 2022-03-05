@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { GetStaticProps } from "next";
 import { SWRConfig } from "swr";
 
@@ -11,24 +10,24 @@ function NewsGallery() {
     isPublic: true,
   });
 
-  const cachedNews = useRef<any>();
-
-  if (news) {
-    cachedNews.current = news;
-  }
-  return cachedNews.current
-    ? cachedNews.current.map((newsItem) => (
-        <NewsCard
-          key={newsItem.id}
-          theme="light"
-          title={newsItem.title}
-          description={newsItem.description}
-          href={`/news/${newsItem.id}`}
-          image={newsItem.preview}
-          className="col-span-2"
-        />
-      ))
-    : null;
+  return news ? (
+    news.map((newsItem) => (
+      <NewsCard
+        key={newsItem.id}
+        theme="light"
+        title={newsItem.title}
+        description={newsItem.description}
+        href={`/news/${newsItem.id}`}
+        image={newsItem.preview}
+        className="col-span-2"
+      />
+    ))
+  ) : (
+    <>
+      <NewsCard className="md:col-span-2" />
+      <NewsCard className="md:col-span-2" />
+    </>
+  );
 }
 
 export default function NewsPage({ fallbackData }) {
