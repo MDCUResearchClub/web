@@ -22,7 +22,9 @@ function LatestTalk() {
 
 function NewsIndex() {
   const { status } = useSession();
-  const { data: news } = useStrapi("/news-articles?_limit=4");
+  const { data: news } = useStrapi("/news-articles?_limit=4", {
+    isPublic: true,
+  });
 
   const newsCard = news
     ? news.map((newItem) => (

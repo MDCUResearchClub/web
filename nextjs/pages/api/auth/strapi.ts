@@ -17,6 +17,6 @@ export default async (req, res) => {
       }
     }
   } else {
-    res.send({});
+    res.send();
   }
 };

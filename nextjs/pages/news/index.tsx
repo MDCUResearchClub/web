@@ -1,43 +1,63 @@
+import { useRef } from "react";
 import { GetStaticProps } from "next";
+import { SWRConfig } from "swr";
+import { useSession } from "next-auth/react";
+
 import Page from "../../components/Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 import NewsCard from "../../components/news/NewsCard";
 
-export default function NewsPage({ staticNews }) {
-  const { data: news } = useStrapi("/news-articles");
-  function getNewsCard(newsItem) {
-    return (
-      <NewsCard
-        key={newsItem.id}
-        theme="light"
-        title={newsItem.title}
-        description={newsItem.description}
-        href={`/news/${newsItem.id}`}
-        image={newsItem.preview}
-        className="col-span-2"
-      />
-    );
+function NewsGallery() {
+  const { status } = useSession();
+  const { data: news } = useStrapi("/news-articles", {
+    isPublic: true,
+  });
+
+  const cachedNews = useRef<any>();
+
+  if (news) {
+    cachedNews.current = news;
   }
+  return cachedNews.current
+    ? cachedNews.current.map((newsItem) => (
+        <NewsCard
+          key={newsItem.id}
+          theme="light"
+          title={newsItem.title}
+          description={newsItem.description}
+          href={`/news/${newsItem.id}`}
+          image={newsItem.preview}
+          className="col-span-2"
+        />
+      ))
+    : null;
+}
 
-  const newsCard = news ? news.map(getNewsCard) : staticNews.map(getNewsCard);
-
+export default function NewsPage({ fallbackData }) {
   return (
-    <Page title="News">
-      <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
-        <h1 className="font-serif text-3xl mb-4 text-center">News</h1>
-        <div className="grid md:grid-cols-4">{newsCard}</div>
-      </div>
-    </Page>
+    <SWRConfig value={{ fallback: fallbackData }}>
+      <Page title="News">
+        <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
+          <h1 className="font-serif text-3xl mb-4 text-center">News</h1>
+          <div className="grid md:grid-cols-4">
+            <NewsGallery />
+          </div>
+        </div>
+      </Page>
+    </SWRConfig>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetchStrapiPublic("/news-articles");
-  const staticNews = res.ok ? await res.json() : [];
+  const news = await fetchStrapiPublic("/news-articles").then((res) =>
+    res.ok ? res.json() : null
+  );
 
   return {
     props: {
-      staticNews,
+      fallbackData: {
+        "/news-articles": news,
+      },
     },
   };
 };

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useSWR from "swr";
+import useSWR, { SWRConfiguration } from "swr";
 import { Buffer } from "buffer";
 import { STRAPI_ENDPOINT } from "./constant";
 
@@ -47,10 +47,10 @@ function strapiDataFetcher(endpoint: string, token?: string) {
   return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
     headers,
   }).then((res) => {
-    if (!res.ok) {
-      throw res;
+    if (res.ok) {
+      return res.json();
     }
-    return res.json();
+    throw res;
   });
 }
 
@@ -61,10 +61,10 @@ export async function fetchStrapiServerSide(endpoint: string = "/users") {
       nextjs: process.env.STRAPI_TOKEN,
     },
   }).then((res) => {
-    if (!res.ok) {
-      throw res;
+    if (res.ok) {
+      return res.json();
     }
-    return res.json();
+    throw res;
   });
 }
 
@@ -72,34 +72,43 @@ export async function fetchStrapiPublic(endpoint: string) {
   return await fetch(`${STRAPI_ENDPOINT}${endpoint}`);
 }
 
-export function useStrapi(endpoint: string = "/users/me", swrOptions?) {
+type useStrapiOptions = {
+  userOptions?: SWRConfiguration;
+  dataOptions?: SWRConfiguration;
+  isPublic?: boolean;
+};
+
+export function useStrapi(
+  endpoint: string = "/users/me",
+  { userOptions, dataOptions, isPublic = false }: useStrapiOptions = {}
+) {
   function strapiUserFetcher(input: string, init?) {
-    return fetch(input, init).then((res) => {
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        throw res;
+    return fetch(input, init).then(async (res) => {
+      if (res.ok) {
+        return res.json().catch(() => undefined);
       }
+      throw res;
     });
   }
 
   const {
-    data: strapiUser,
+    data: user,
     error: userError,
     mutate: mutateUser,
   } = useSWR("/api/auth/strapi", strapiUserFetcher, {
     dedupingInterval: 5 * 60 * 1000, // 5 mins
+    ...userOptions,
   });
 
   const { data, error: dataError } = useSWR(
-    strapiUser && endpoint ? [endpoint, strapiUser["jwt"]] : null,
+    user ? [endpoint, user["jwt"]] : isPublic ? endpoint : null,
     strapiDataFetcher,
-    swrOptions
+    dataOptions
   );
 
   useEffect(() => {
-    if (strapiUser?.["jwt"]) {
-      const jwtDecoded = strapiUser["jwtDecoded"];
+    if (user?.["jwt"]) {
+      const jwtDecoded = user["jwtDecoded"];
       const timeout = setTimeout(
         () => mutateUser(),
         jwtDecoded.exp * 1000 - Date.now()
@@ -108,7 +117,7 @@ export function useStrapi(endpoint: string = "/users/me", swrOptions?) {
     }
   });
 
-  return { strapiUser, data, userError, dataError };
+  return { user, data, userError, dataError };
 }
 
 export function strapiImageLoader({
