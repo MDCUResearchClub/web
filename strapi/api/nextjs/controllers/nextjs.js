@@ -26,10 +26,24 @@ module.exports = {
       .query("user", "users-permissions")
       .findOne({ email: params.email });
 
-    if (!user) {
+    if (user) {
+      // Update existing user
+      await usersPlugin.services.user.edit(
+        { id: user.id },
+        {
+          username: params.username,
+          email: params.email,
+          // update 'confirmationToken' to update the 'updated_at' attribute (NonWritableAttributes by Strapi)
+          // https://github.com/strapi/strapi/blob/db6a77697779dcd3434e295f5689faa15080c775/packages/strapi-utils/lib/content-types.js#L61
+          confirmationToken: String(Date.now()),
+        }
+      );
+    } else {
+      // Create new user
       const newUser = {
         username: params.username,
         email: params.email,
+        confirmationToken: String(Date.now()),
       };
 
       const role = await strapi
