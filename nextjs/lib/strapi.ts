@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import { Buffer } from "buffer";
 import { STRAPI_ENDPOINT } from "./constant";
@@ -76,11 +75,17 @@ type useStrapiOptions = {
   userOptions?: SWRConfiguration;
   dataOptions?: SWRConfiguration;
   isPublic?: boolean;
+  immutable?: boolean;
 };
 
 export function useStrapi(
   endpoint: string = "/users/me",
-  { userOptions, dataOptions, isPublic = false }: useStrapiOptions = {}
+  {
+    userOptions = {},
+    dataOptions = {},
+    isPublic = false,
+    immutable = false,
+  }: useStrapiOptions = {}
 ) {
   function strapiUserFetcher(input: string, init?) {
     return fetch(input, init).then(async (res) => {
@@ -91,14 +96,24 @@ export function useStrapi(
     });
   }
 
-  const {
-    data: user,
-    error: userError,
-    mutate: mutateUser,
-  } = useSWR("/api/auth/strapi", strapiUserFetcher, {
-    dedupingInterval: 5 * 60 * 1000, // 5 mins
-    ...userOptions,
-  });
+  if (immutable) {
+    // Disable Automatic Revalidations https://swr.vercel.app/docs/revalidation#disable-automatic-revalidations
+    userOptions.revalidateOnFocus = false;
+    userOptions.revalidateIfStale = false;
+    userOptions.revalidateOnReconnect = false;
+    dataOptions.revalidateOnFocus = false;
+    dataOptions.revalidateIfStale = false;
+    dataOptions.revalidateOnReconnect = false;
+  }
+
+  const { data: user, error: userError } = useSWR(
+    "/api/auth/strapi",
+    strapiUserFetcher,
+    {
+      dedupingInterval: 5 * 60 * 1000, // 5 mins
+      ...userOptions,
+    }
+  );
 
   let finalEndpoint;
   if (user && endpoint) {
@@ -114,17 +129,6 @@ export function useStrapi(
     strapiDataFetcher,
     dataOptions
   );
-
-  useEffect(() => {
-    if (user?.["jwt"]) {
-      const jwtDecoded = user["jwtDecoded"];
-      const timeout = setTimeout(
-        () => mutateUser(),
-        jwtDecoded.exp * 1000 - Date.now()
-      );
-      return () => clearTimeout(timeout);
-    }
-  });
 
   return { user, data, userError, dataError };
 }
