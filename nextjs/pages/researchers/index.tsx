@@ -40,8 +40,6 @@ function SearchResults() {
     ? departmentResearchers
     : keywordResearchers;
 
-  console.log(keywordResearchers);
-
   if (researchers === undefined) {
     return <Loading colorClass="bg-blue-600" />;
   }
