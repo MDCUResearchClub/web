@@ -100,8 +100,17 @@ export function useStrapi(
     ...userOptions,
   });
 
+  let finalEndpoint;
+  if (user && endpoint) {
+    finalEndpoint = [endpoint, user["jwt"]];
+  } else if (isPublic && endpoint) {
+    finalEndpoint = endpoint;
+  } else {
+    finalEndpoint = null;
+  }
+
   const { data, error: dataError } = useSWR(
-    user ? [endpoint, user["jwt"]] : isPublic ? endpoint : null,
+    finalEndpoint,
     strapiDataFetcher,
     dataOptions
   );
