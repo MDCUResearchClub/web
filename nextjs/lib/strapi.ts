@@ -110,7 +110,7 @@ export function useStrapi(
     "/api/auth/strapi",
     strapiUserFetcher,
     {
-      dedupingInterval: 5 * 60 * 1000, // 5 mins
+      dedupingInterval: 6 * 60 * 60 * 1000, // 6 hours
       ...userOptions,
     }
   );

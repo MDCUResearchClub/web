@@ -84,7 +84,7 @@ module.exports = {
 
     const jwt = usersPlugin.services.jwt.issue(
       { id: user.id },
-      { expiresIn: "15m" }
+      { expiresIn: "6h" }
     );
 
     return {
