@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "researchers",
+  "info": {
+    "singularName": "researcher",
+    "pluralName": "researchers",
+    "displayName": "Researchers",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "position_th": {
+      "type": "string"
+    },
+    "position_en": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "suffix": {
+      "type": "string"
+    },
+    "fullname_th": {
+      "type": "string"
+    },
+    "fullname_en": {
+      "type": "string"
+    },
+    "area_of_interests": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::aoi.aoi",
+      "inversedBy": "researchers"
+    },
+    "keywords": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::keyword.keyword",
+      "inversedBy": "researchers"
+    },
+    "emails": {
+      "type": "component",
+      "repeatable": true,
+      "component": "email.emails"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "url.links"
+    },
+    "division": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::division.division",
+      "inversedBy": "researchers"
+    }
+  }
+}

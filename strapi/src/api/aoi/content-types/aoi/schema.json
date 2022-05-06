@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aois",
+  "info": {
+    "singularName": "aoi",
+    "pluralName": "aois",
+    "displayName": "Area of Interests",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "researchers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::researcher.researcher",
+      "mappedBy": "area_of_interests"
+    }
+  }
+}
