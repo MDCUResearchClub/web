@@ -30,16 +30,16 @@
     "fullname_en": {
       "type": "string"
     },
-    "area_of_interests": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::aoi.aoi",
-      "inversedBy": "researchers"
-    },
     "keywords": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::keyword.keyword",
+      "inversedBy": "researchers"
+    },
+    "division": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::division.division",
       "inversedBy": "researchers"
     },
     "emails": {
@@ -51,12 +51,6 @@
       "type": "component",
       "repeatable": true,
       "component": "url.links"
-    },
-    "division": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::division.division",
-      "inversedBy": "researchers"
     }
   }
 }
