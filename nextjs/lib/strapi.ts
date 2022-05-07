@@ -21,8 +21,8 @@ export async function loginStrapiUser(user: SessionUser) {
       email: user.email,
     }),
     headers: {
+      Authorization: `bearer ${process.env.STRAPI_TOKEN}`,
       "Content-Type": "application/json; charset=utf-8",
-      nextjs: process.env.STRAPI_TOKEN,
     },
   }).then((res) => {
     if (res.status !== 200) {
@@ -130,7 +130,13 @@ export function useStrapi(
     dataOptions
   );
 
-  return { user, data, userError, dataError };
+  /**
+   * Unified response format
+   * data : the response data itself
+   * meta (object): information about pagination, publication state, available locales, etc.
+   * error (object, optional): information about any error thrown by the request
+   */
+  return { user, ...data, userError, dataError };
 }
 
 export function strapiImageLoader({
