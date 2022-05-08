@@ -4,7 +4,8 @@
   "info": {
     "singularName": "news-article",
     "pluralName": "news-articles",
-    "displayName": "News Articles"
+    "displayName": "News Articles",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,6 +15,9 @@
     "title": {
       "type": "string"
     },
+    "public": {
+      "type": "boolean"
+    },
     "description": {
       "type": "text"
     },
@@ -21,18 +25,20 @@
       "type": "richtext"
     },
     "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "preview": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }
