@@ -1,21 +1,21 @@
-import { migrateDepartments } from './departments.mjs';
-import { migrateDivisions } from './divisions.mjs';
-import { migrateKeywords } from './keywords.mjs';
-import { migrateNewsArticles } from './news-articles.mjs';
-import { migrateOpportunities } from './opportunities.mjs';
-import { migratResearchTalks } from './research-talks.mjs';
-import { migrateResearchers } from './researchers.mjs';
+import { migrateDepartments } from "./departments.mjs";
+import { migrateDivisions } from "./divisions.mjs";
+import { migrateKeywords } from "./keywords.mjs";
+import { migrateNewsArticles } from "./news-articles.mjs";
+import { migrateOpportunities } from "./opportunities.mjs";
+import { migratResearchTalks } from "./research-talks.mjs";
+import { migrateResearchers } from "./researchers.mjs";
 
-await migrateDepartments()
+await migrateDepartments();
 
-await migrateDivisions()
+await migrateDivisions();
 
-await migrateKeywords()
+await migrateKeywords();
 
-await migrateNewsArticles()
+await migrateNewsArticles();
 
-await migrateOpportunities()
+await migrateOpportunities();
 
-await migratResearchTalks()
+await migratResearchTalks();
 
-await migrateResearchers()
+await migrateResearchers();
