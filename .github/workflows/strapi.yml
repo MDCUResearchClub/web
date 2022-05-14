@@ -29,7 +29,9 @@ jobs:
         env:
           NODE_ENV: production
           APP_KEYS: toBeModified1,toBeModified2
-          JWT_SECRET: jwt-token
+          ADMIN_JWT_SECRET: example-token
+          API_TOKEN_SALT: example-salt
+          JWT_SECRET: aSecret
 
   build-and-push-image:
     runs-on: ubuntu-latest
