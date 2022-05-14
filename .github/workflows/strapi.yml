@@ -29,6 +29,7 @@ jobs:
         env:
           NODE_ENV: production
           APP_KEYS: toBeModified1,toBeModified2
+          JWT_SECRET: jwt-token
 
   build-and-push-image:
     runs-on: ubuntu-latest
