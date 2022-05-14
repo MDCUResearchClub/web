@@ -26,7 +26,8 @@ module.exports = {
     }
 
     const userService = strapi.service("plugin::users-permissions.user");
-    let user = await userService.fetch({ email: params.email });
+    let user = (await userService.fetchAll({ email: params.email }))[0];
+    console.log(user);
 
     if (user) {
       // Update existing user updatedAt
