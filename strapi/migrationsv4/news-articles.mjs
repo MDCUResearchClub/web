@@ -8,6 +8,7 @@ export async function migrateNewsArticles() {
         title: article.title,
         description: article.description,
         body: article.body,
+        public: article.public,
       }).then((data) => publishV4(`news-article.news-article/${data.id}`))
     )
   );

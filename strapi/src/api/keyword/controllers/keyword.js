@@ -16,10 +16,10 @@ const {
 
 module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
   async top(ctx) {
-    const qb = strapi.db.queryBuilder("api::keyword.keyword");
     const { attributes } = strapi.db.metadata.get("api::keyword.keyword");
     const researchersAttribute = attributes["researchers"];
     const { joinTable } = researchersAttribute;
+    const qb = strapi.db.queryBuilder("api::keyword.keyword");
     const joinAlias = qb.getAlias();
 
     const fetchParams = strapi
@@ -29,7 +29,7 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
 
     // https://github.com/strapi/strapi/blob/3f204a0a48d4e1f6dca21683eb6c63041b2f6626/packages/core/database/lib/query/query-builder.js
     // https://github.com/strapi/strapi/blob/3f204a0a48d4e1f6dca21683eb6c63041b2f6626/packages/core/strapi/lib/core-api/service/collection-type.js#L29
-    const subQB = qb
+    const results = await qb
       .init({
         ...fetchParams,
         ...transformParamsToQuery(
@@ -38,22 +38,17 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
         ),
       })
       .join({
+        method: "join",
         alias: joinAlias,
         referencedTable: joinTable.name,
-        referencedColumn: joinTable.inverseJoinColumn.name,
-        rootColumn: joinTable.inverseJoinColumn.referencedColumn,
+        referencedColumn: joinTable.joinColumn.name,
+        rootColumn: joinTable.joinColumn.referencedColumn,
         rootTable: qb.alias,
-        on: joinTable.on,
       })
-      .select(["id", "title", qb.raw("count(*) AS count")])
-      .groupBy(`${joinAlias}.${joinTable.joinColumn.name}`)
-      .getKnexQuery();
-
-    const results = await strapi.db
-      .getConnection()
-      .select("*")
-      .orderBy("count", "desc")
-      .from(subQB.as("subQuery"));
+      .select(["id", "title", qb.raw("COUNT(*) AS count")])
+      .groupBy(joinTable.joinColumn.referencedColumn)
+      .getKnexQuery()
+      .orderBy("count", "desc");
 
     const sanitizedResults = await this.sanitizeOutput(results, ctx);
     return this.transformResponse(sanitizedResults, {

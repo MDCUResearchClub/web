@@ -27,7 +27,6 @@ module.exports = {
 
     const userService = strapi.service("plugin::users-permissions.user");
     let user = (await userService.fetchAll({ email: params.email }))[0];
-    console.log(user);
 
     if (user) {
       // Update existing user updatedAt
@@ -56,9 +55,11 @@ module.exports = {
         ).id;
       }
 
-      const existingUsername = await userService.fetch({
-        username: params.username,
-      });
+      const existingUsername = (
+        await userService.fetchAll({
+          username: params.username,
+        })
+      )[0];
 
       if (existingUsername) {
         newUser.username += " " + Math.floor(Math.random() * 1000);
