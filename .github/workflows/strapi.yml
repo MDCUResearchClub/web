@@ -28,6 +28,7 @@ jobs:
           kill $PID
         env:
           NODE_ENV: production
+          APP_KEYS: toBeModified1,toBeModified2
 
   build-and-push-image:
     runs-on: ubuntu-latest
