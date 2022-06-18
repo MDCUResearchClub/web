@@ -10,9 +10,12 @@ import Page from "../../components/Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
 function ImageRenderer({ src, alt }: React.ComponentPropsWithoutRef<"img">) {
-  const results = useStrapi(`/upload/files?filters[url]=${src}`, {
-    isPublic: true,
-  });
+  const results = useStrapi(
+    `/upload/files?pagination[limit]=1&filters[url]=${src}`,
+    {
+      isPublic: true,
+    }
+  );
   if (results[0]) {
     return (
       <Image
