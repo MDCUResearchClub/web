@@ -9,7 +9,7 @@ function OpportunitiesCard({ opportunity }) {
   return (
     <Link href={`/opportunities/${opportunity.id}`}>
       <a className="block m-2 p-2 md:p-4 border-solid border-2 border-blue-500 rounded">
-        <h3 className="my-4 text-xl">{opportunity.title}</h3>
+        <h3 className="my-4 text-xl">{opportunity.attributes.title}</h3>
       </a>
     </Link>
   );

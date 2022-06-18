@@ -16,7 +16,11 @@ export default function OpportunityItemPage() {
   }
 
   return (
-    <Page title={opportunityItem ? opportunityItem.title : "Opportunities"}>
+    <Page
+      title={
+        opportunityItem ? opportunityItem.attributes.title : "Opportunities"
+      }
+    >
       {opportunityItem && (
         <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
           <Head>
@@ -27,14 +31,14 @@ export default function OpportunityItemPage() {
             <meta property="og:type" content="website" />
             <meta
               property="og:title"
-              content={opportunityItem.title + " | " + SITE_NAME}
+              content={opportunityItem.attributes.title + " | " + SITE_NAME}
             />
           </Head>
           <h1 className="font-serif text-3xl mb-8 text-center">
-            {opportunityItem.title}
+            {opportunityItem.attributes.title}
           </h1>
           <div className="prose mx-auto">
-            <ReactMarkdown>{opportunityItem.details}</ReactMarkdown>
+            <ReactMarkdown>{opportunityItem.attributes.details}</ReactMarkdown>
           </div>
         </div>
       )}

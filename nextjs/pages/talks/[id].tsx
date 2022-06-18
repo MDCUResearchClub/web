@@ -30,18 +30,18 @@ export default function TalkItemPage() {
   }
 
   return (
-    <Page title={talkItem.title + " talks"}>
+    <Page title={talkItem.attributes.title + " talks"}>
       <div className="bg-black">
         <div className="container mx-auto md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <VideoPlayer videoID={talkItem.youtubeID} />
+          <VideoPlayer videoID={talkItem.attributes.youtubeID} />
         </div>
       </div>
       <div className="container mx-auto p-6">
         <h1 className="text-xl md:text-2xl font-semibold mb-2">
-          {talkItem.title}
+          {talkItem.attributes.title}
         </h1>
         <div className="prose mx-auto">
-          <ReactMarkdown>{talkItem.description}</ReactMarkdown>
+          <ReactMarkdown>{talkItem.attributes.description}</ReactMarkdown>
         </div>
       </div>
     </Page>

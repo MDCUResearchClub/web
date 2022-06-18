@@ -1,13 +1,15 @@
-import Link from "next/link"
-import { useStrapi } from "../../lib/strapi"
-import Loading from "../common/Loading"
+import Link from "next/link";
+import { useStrapi } from "../../lib/strapi";
+import Loading from "../common/Loading";
 
 export function DepartmentsIndex() {
-  const { data: departments }: { data: { title: string; id: number }[] } =
-    useStrapi("/departments")
+  const {
+    data: departments,
+  }: { data: { attributes: { title: string }; id: number }[] } =
+    useStrapi("/departments");
   const othersDepartment = departments
-    ? departments.find((department) => !department.title)
-    : null
+    ? departments.find((department) => !department.attributes.title)
+    : null;
   return (
     <section className="mb-8">
       <h2 className="text-2xl mb-2">Departments</h2>
@@ -15,14 +17,16 @@ export function DepartmentsIndex() {
         {!departments && <Loading colorClass="bg-blue-600" />}
         {departments &&
           departments
-            .filter((department) => department.title)
+            .filter((department) => department.attributes.title)
             .map((department) => (
               <article
                 className="text-center rounded border-2 border-blue-500 p-1"
                 key={department.id}
               >
                 <Link href={`?department=${department.id}`} passHref>
-                  <a className="capitalize block">{department.title}</a>
+                  <a className="capitalize block">
+                    {department.attributes.title}
+                  </a>
                 </Link>
               </article>
             ))}
@@ -38,12 +42,15 @@ export function DepartmentsIndex() {
         )}
       </div>
     </section>
-  )
+  );
 }
 
 export function KeywordsIndex() {
-  const { data: keywords }: { data: { title: string; id: number }[] } =
-    useStrapi("/keywords/top")
+  const {
+    data: keywords,
+  }: { data: { attributes: { title: string }; id: number }[] } = useStrapi(
+    "/keywords/top?pagination[limit]=100"
+  );
   return (
     <section className="mb-8">
       <h2 className="text-2xl mb-2">Keywords</h2>
@@ -51,18 +58,18 @@ export function KeywordsIndex() {
         {!keywords && <Loading colorClass="bg-blue-600" />}
         {keywords &&
           keywords
-            .filter((keyword) => keyword.title)
+            .filter((keyword) => keyword.attributes.title)
             .map((keyword) => (
               <article
                 className="text-center rounded border-2 p-1"
                 key={keyword.id}
               >
                 <Link href={`?keyword=${keyword.id}`} passHref>
-                  <a className="capitalize block">{keyword.title}</a>
+                  <a className="capitalize block">{keyword.attributes.title}</a>
                 </Link>
               </article>
             ))}
       </div>
     </section>
-  )
+  );
 }

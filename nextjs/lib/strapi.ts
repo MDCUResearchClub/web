@@ -14,7 +14,7 @@ interface SessionUser {
 }
 
 export async function loginStrapiUser(user: SessionUser) {
-  const strapiUser = await fetch(`${STRAPI_ENDPOINT}/nextjs/login`, {
+  const strapiUser = await fetch(`${STRAPI_ENDPOINT}/api/nextjs/login`, {
     method: "POST",
     body: JSON.stringify({
       username: user.name,
@@ -43,7 +43,7 @@ function strapiDataFetcher(endpoint: string, token?: string) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
+  return fetch(`${STRAPI_ENDPOINT}/api${endpoint}`, {
     headers,
   }).then((res) => {
     if (res.ok) {
@@ -54,7 +54,7 @@ function strapiDataFetcher(endpoint: string, token?: string) {
 }
 
 export async function fetchStrapiServerSide(endpoint: string = "/users") {
-  return fetch(`${STRAPI_ENDPOINT}${endpoint}`, {
+  return fetch(`${STRAPI_ENDPOINT}/api${endpoint}`, {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       nextjs: process.env.STRAPI_TOKEN,
@@ -68,7 +68,7 @@ export async function fetchStrapiServerSide(endpoint: string = "/users") {
 }
 
 export async function fetchStrapiPublic(endpoint: string) {
-  return await fetch(`${STRAPI_ENDPOINT}${endpoint}`);
+  return await fetch(`${STRAPI_ENDPOINT}/api${endpoint}`);
 }
 
 type useStrapiOptions = {

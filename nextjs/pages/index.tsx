@@ -14,7 +14,7 @@ function LatestTalk() {
     <NewsCard
       theme="dark"
       intro="Latest talk »»"
-      title={talks?.[0]?.title}
+      title={talks?.[0]?.attributes.title}
       href={talks?.[0]?.id ? `/talks/${talks[0]?.id}` : undefined}
     />
   );
@@ -32,10 +32,10 @@ function NewsIndex() {
           className="md:col-span-2"
           key={newItem.id}
           theme="light"
-          title={newItem.title}
-          description={newItem.description}
+          title={newItem.attributes.title}
+          description={newItem.attributes.description}
           href={`/news/${newItem.id}`}
-          image={newItem.preview}
+          image={newItem.attributes.preview}
         />
       ))
     : null;
