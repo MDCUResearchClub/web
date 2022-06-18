@@ -16,15 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci
+      - run: rm -r config/env
       - run: npm run build
         env:
           NODE_ENV: production
       - run: |
           npm run start &
           PID=$!
-          curl -s --retry 10 --retry-connrefused http://localhost:1337/ | grep "Let's get started!"
+          curl -s --retry 10 --retry-connrefused http://localhost:1337/ | grep "The server is running successfully."
           curl -s http://localhost:1337/admin | grep "Strapi Admin"
           kill $PID
+        env:
+          NODE_ENV: production
+          APP_KEYS: toBeModified1,toBeModified2
+          ADMIN_JWT_SECRET: example-token
+          API_TOKEN_SALT: example-salt
+          JWT_SECRET: aSecret
 
   build-and-push-image:
     runs-on: ubuntu-latest

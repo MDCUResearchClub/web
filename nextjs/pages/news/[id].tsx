@@ -9,25 +9,35 @@ import { SITE_NAME, SITE_ORIGIN, STRAPI_ENDPOINT } from "../../lib/constant";
 import Page from "../../components/Page";
 import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 
-function ImageRenderer(bodyImages) {
-  function MarkdownImage({ src, alt }: React.ComponentPropsWithoutRef<"img">) {
+function ImageRenderer({ src, alt }: React.ComponentPropsWithoutRef<"img">) {
+  const results = useStrapi(
+    `/upload/files?pagination[limit]=1&filters[url]=${src}`,
+    {
+      isPublic: true,
+    }
+  );
+  if (results[0]) {
     return (
       <Image
         src={STRAPI_ENDPOINT + src}
-        width={bodyImages[src].width}
-        height={bodyImages[src].height}
         alt={alt}
+        width={results[0].width}
+        height={results[0].height}
         layout="responsive"
       />
     );
   }
-  return MarkdownImage;
+  return null;
 }
 
 export default function NewsItemPage({ staticNewsItem }) {
   const router = useRouter();
   const { data: newsItem, dataError } = useStrapi(
-    router.query.id ? `/news-articles/${router.query.id}` : null
+    router.query.id
+      ? `/news-articles/${router.query.id}` +
+          "?populate[0]=preview&populate[1]=cover"
+      : null,
+    { isPublic: true }
   );
 
   if (dataError) {
@@ -37,12 +47,14 @@ export default function NewsItemPage({ staticNewsItem }) {
 
   const ogImage =
     finalNewsItem &&
-    (finalNewsItem.preview?.url || finalNewsItem.cover?.url || "");
+    (finalNewsItem.attributes.preview.data?.attributes.url ||
+      finalNewsItem.attributes.cover.data?.attributes.url ||
+      "");
 
   return (
     <Page
-      title={finalNewsItem ? finalNewsItem.title : "News"}
-      description={finalNewsItem ? finalNewsItem.description : ""}
+      title={finalNewsItem ? finalNewsItem.attributes.title : "News"}
+      description={finalNewsItem ? finalNewsItem.attributes.description : ""}
     >
       {finalNewsItem && (
         <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
@@ -54,26 +66,29 @@ export default function NewsItemPage({ staticNewsItem }) {
             <meta property="og:type" content="website" />
             <meta
               property="og:title"
-              content={finalNewsItem.title + " | " + SITE_NAME}
+              content={finalNewsItem.attributes.title + " | " + SITE_NAME}
             />
             <meta
               property="og:description"
-              content={finalNewsItem.description}
+              content={finalNewsItem.attributes.description}
             />
             {ogImage && (
               <meta property="og:image" content={STRAPI_ENDPOINT + ogImage} />
             )}
           </Head>
           <h1 className="font-serif text-3xl mb-4 text-center">
-            {finalNewsItem.title}
+            {finalNewsItem.attributes.title}
           </h1>
-          {finalNewsItem.cover && (
+          {finalNewsItem.attributes.cover.data && (
             <div className="my-2 md:my-4 mx-auto lg:w-5/6 xl:w-4/6">
               <Image
-                src={STRAPI_ENDPOINT + finalNewsItem.cover.url}
+                src={
+                  STRAPI_ENDPOINT +
+                  finalNewsItem.attributes.cover.data.attributes.url
+                }
                 alt=""
-                width={finalNewsItem.cover.width}
-                height={finalNewsItem.cover.height}
+                width={finalNewsItem.attributes.cover.data.attributes.width}
+                height={finalNewsItem.attributes.cover.data.attributes.height}
                 layout="responsive"
               />
             </div>
@@ -81,13 +96,11 @@ export default function NewsItemPage({ staticNewsItem }) {
           <div className="prose mx-auto">
             <ReactMarkdown
               components={{
-                img: ImageRenderer(
-                  finalNewsItem ? finalNewsItem["bodyImages"] : {}
-                ),
+                img: ImageRenderer,
               }}
               remarkPlugins={[unwrapImages]}
             >
-              {finalNewsItem.body}
+              {finalNewsItem.attributes.body}
             </ReactMarkdown>
           </div>
         </div>
@@ -97,13 +110,15 @@ export default function NewsItemPage({ staticNewsItem }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetchStrapiPublic("/news-articles/" + params.id);
+  const res = await fetchStrapiPublic(
+    "/news-articles/" + params.id + "?populate[0]=preview&populate[1]=cover"
+  );
 
   const staticNewsItem = res.ok ? await res.json() : null;
 
   return {
     props: {
-      staticNewsItem,
+      staticNewsItem: staticNewsItem.data,
     },
   };
 };
@@ -111,7 +126,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetchStrapiPublic("/news-articles");
   const staticNews = res.ok ? await res.json() : [];
-  const paths = staticNews.map((newsItem) => ({
+  const paths = staticNews.data.map((newsItem) => ({
     params: { id: String(newsItem.id) },
   }));
   return {

@@ -15,10 +15,10 @@ function NewsGallery() {
       <NewsCard
         key={newsItem.id}
         theme="light"
-        title={newsItem.title}
-        description={newsItem.description}
+        title={newsItem.attributes.title}
+        description={newsItem.attributes.description}
         href={`/news/${newsItem.id}`}
-        image={newsItem.preview}
+        image={newsItem.attributes.preview}
         className="col-span-2"
       />
     ))

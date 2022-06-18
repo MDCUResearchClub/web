@@ -9,7 +9,7 @@ type VideoPlayerProps = React.ComponentProps<"div"> & {
 };
 
 function VideoPlayer({
-  videoID = "dZ9d3iCh-JQ",
+  videoID = "dQw4w9WgXcQ",
   options = {},
 }: VideoPlayerProps) {
   const playerRef = useRef();

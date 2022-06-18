@@ -11,28 +11,32 @@ import {
   KeywordsIndex,
 } from "../../components/researcher/Index";
 
+const populateResearcherDetails =
+  "populate[0]=emails&populate[1]=links&populate[2]=keywords&populate[3]=division.department&pagination[limit]=100";
+
 function SearchResults() {
   const router = useRouter();
-  const { data: department = [] } = useStrapi(
+  const { data: department } = useStrapi(
     router.query.department
-      ? `/departments?id=${router.query.department}`
+      ? `/departments/${router.query.department}?populate=divisions`
       : null
   );
 
-  const division =
-    department.length > 0
-      ? department[0].divisions
-          .map((division) => `division_in=${division.id}`)
-          .join("&")
-      : "";
+  const division = department
+    ? department.attributes.divisions.data
+        .map((division, i) => `filters[division][id][$in][${i}]=${division.id}`)
+        .join("&")
+    : "";
 
   const { data: departmentResearchers } = useStrapi(
-    router.query.department && division ? `/researchers?${division}` : null
+    router.query.department && division
+      ? `/researchers?${division}&${populateResearcherDetails}`
+      : null
   );
 
   const { data: keywordResearchers } = useStrapi(
     router.query.keyword
-      ? `/researchers?keywords=${router.query.keyword}`
+      ? `/researchers?filters[keywords][id][$eq]=${router.query.keyword}&${populateResearcherDetails}`
       : null
   );
 
@@ -83,13 +87,11 @@ function SearchResults() {
 function SearchBox() {
   const router = useRouter();
   const { data: department = [] } = useStrapi(
-    router.query.department
-      ? `/departments?id=${router.query.department}`
-      : null
+    router.query.department ? `/departments/${router.query.department}` : null
   );
 
   const { data: keyword = [] } = useStrapi(
-    router.query.keyword ? `/keywords?id=${router.query.keyword}` : null
+    router.query.keyword ? `/keywords/${router.query.keyword}` : null
   );
 
   return (

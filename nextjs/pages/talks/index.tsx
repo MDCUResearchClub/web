@@ -20,11 +20,11 @@ function ShowTalks() {
                 <div className="flex flex-col sm:flex-row lg:flex-col h-full lg:justify-center items-center shadow rounded border border-solid border-gray-200 overflow-hidden">
                   <img
                     className="block sm:w-1/3 md:w-1/4 lg:w-full"
-                    src={`https://i.ytimg.com/vi/${talk.youtubeID}/hqdefault.jpg`}
-                    alt={talk.title + " poster"}
+                    src={`https://i.ytimg.com/vi/${talk.attributes.youtubeID}/hqdefault.jpg`}
+                    alt={talk.attributes.title + " poster"}
                   />
                   <h2 className="block m-4 sm:text-xl lg:font-semibold">
-                    {talk.title}
+                    {talk.attributes.title}
                   </h2>
                 </div>
               </a>
