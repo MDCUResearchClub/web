@@ -2,8 +2,8 @@ import { fetchV3, postV4, publishV4 } from "./common.mjs";
 
 export async function migrateKeywords() {
   const data = await fetchV3("/keywords/count");
-  for (let i = 0; i < data; i = i + 100) {
-    const data = await fetchV3(`/keywords?_start=${i}&_limit=100`);
+  for (let i = 0; i < data; i = i + 25) {
+    const data = await fetchV3(`/keywords?_start=${i}&_limit=25`);
     await Promise.all(
       data.map((keyword) =>
         postV4("keyword.keyword", {

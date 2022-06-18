@@ -2,8 +2,8 @@ import { fetchV3, postV4, publishV4, getV4 } from "./common.mjs";
 
 export async function migrateResearchers() {
   const data = await fetchV3("/researchers/count");
-  for (let i = 0; i < data; i = i + 100) {
-    const data = await fetchV3(`/researchers?_start=${i}&_limit=100`);
+  for (let i = 0; i < data; i = i + 25) {
+    const data = await fetchV3(`/researchers?_start=${i}&_limit=25`);
     await Promise.all(
       data.map(async (researcher) => {
         const keywords = (
