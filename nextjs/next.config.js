@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["mdcuresearchclub-strapiv4.thew.pro", "localhost"],
+    domains: ["mdcuresearchclub-strapi.thew.pro", "localhost"],
   },
 };
