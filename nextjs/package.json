@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.7",
-    "autoprefixer": "^10.4.8",
-    "next": "^12.3.0",
-    "next-auth": "^4.10.3",
+    "autoprefixer": "^10.4.12",
+    "next": "^12.3.1",
+    "next-auth": "^4.13.0",
     "plyr": "^3.7.2",
-    "postcss": "^8.4.16",
+    "postcss": "^8.4.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.3",
@@ -22,8 +22,8 @@
     "tailwindcss": "^3.1.8"
   },
   "devDependencies": {
-    "@types/node": "^16.11.58",
-    "@types/react": "^18.0.18",
-    "typescript": "^4.8.3"
+    "@types/node": "^16.11.65",
+    "@types/react": "^18.0.21",
+    "typescript": "^4.8.4"
   }
 }
