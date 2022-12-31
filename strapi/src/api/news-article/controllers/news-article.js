@@ -5,6 +5,7 @@
  */
 
 const { createCoreController } = require("@strapi/strapi").factories;
+const { ForbiddenError } = require('@strapi/utils').errors;
 
 module.exports = createCoreController(
   "api::news-article.news-article",
@@ -26,16 +27,12 @@ module.exports = createCoreController(
     },
 
     async findOne(ctx) {
-      // some custom logic here
-      if (!ctx.state.user) {
-        ctx.query = {
-          ...ctx.query,
-          filters: { ...ctx.query.filters, public: true },
-        };
-      }
-
       // Calling the default core action
       const { data, meta } = await super.findOne(ctx);
+
+      if (!ctx.state.user && !data.attributes.public) {
+        throw new ForbiddenError('You are not allowed to access this article');
+      }
 
       return { data, meta };
     },
