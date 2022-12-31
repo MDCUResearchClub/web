@@ -36,7 +36,10 @@ export async function loginStrapiUser(user: SessionUser) {
   return strapiUser;
 }
 
-function strapiDataFetcher(endpoint: string, token?: string) {
+function strapiDataFetcher([endpoint, token]: [
+  endpoint: string,
+  token?: string
+]) {
   const headers = {};
   if (token) {
     // Authenticated user
@@ -87,8 +90,8 @@ export function useStrapi(
     immutable = false,
   }: useStrapiOptions = {}
 ) {
-  function strapiUserFetcher(input: string, init?) {
-    return fetch(input, init).then(async (res) => {
+  function strapiUserFetcher(input: string) {
+    return fetch(input).then(async (res) => {
       if (res.ok) {
         return res.json().catch(() => undefined);
       }
@@ -119,7 +122,7 @@ export function useStrapi(
   if (user && endpoint) {
     finalEndpoint = [endpoint, user["jwt"]];
   } else if (isPublic && endpoint) {
-    finalEndpoint = endpoint;
+    finalEndpoint = [endpoint];
   } else {
     finalEndpoint = null;
   }
