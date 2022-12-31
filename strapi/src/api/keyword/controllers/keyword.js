@@ -26,6 +26,7 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
 
     // https://github.com/strapi/strapi/blob/3f204a0a48d4e1f6dca21683eb6c63041b2f6626/packages/core/database/lib/query/query-builder.js
     // https://github.com/strapi/strapi/blob/3f204a0a48d4e1f6dca21683eb6c63041b2f6626/packages/core/strapi/lib/core-api/service/collection-type.js#L29
+    // https://github.com/strapi/strapi/blame/9bb6b846c5a7cc18f05596ecf9a819d95b2c5be3/packages/core/database/lib/query/helpers/populate/apply.js#L245
     const results = await qb
       .init({
         ...fetchParams,
@@ -35,15 +36,15 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
         ),
       })
       .join({
-        method: "join",
         alias: joinAlias,
         referencedTable: joinTable.name,
         referencedColumn: joinTable.joinColumn.name,
         rootColumn: joinTable.joinColumn.referencedColumn,
         rootTable: qb.alias,
+        on: joinTable.on
       })
       .select(["id", "title", qb.raw("COUNT(*) AS count")])
-      .groupBy(`${alias}.${joinTable.joinColumn.referencedColumn}`)
+      .groupBy(`${qb.alias}.${joinTable.joinColumn.referencedColumn}`)
       .getKnexQuery()
       .orderBy("count", "desc");
 
