@@ -43,7 +43,7 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
         rootTable: qb.alias,
       })
       .select(["id", "title", qb.raw("COUNT(*) AS count")])
-      .groupBy(joinTable.joinColumn.referencedColumn)
+      .groupBy(`${alias}.${joinTable.joinColumn.referencedColumn}`)
       .getKnexQuery()
       .orderBy("count", "desc");
 
