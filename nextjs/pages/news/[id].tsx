@@ -23,7 +23,6 @@ function ImageRenderer({ src, alt }: React.ComponentPropsWithoutRef<"img">) {
         alt={alt}
         width={results[0].width}
         height={results[0].height}
-        layout="responsive"
       />
     );
   }
@@ -86,10 +85,11 @@ export default function NewsItemPage({ staticNewsItem }) {
                   STRAPI_ENDPOINT +
                   finalNewsItem.attributes.cover.data.attributes.url
                 }
-                alt=""
+                alt={
+                  finalNewsItem.attributes.cover.data.attributes.alternativeText
+                }
                 width={finalNewsItem.attributes.cover.data.attributes.width}
                 height={finalNewsItem.attributes.cover.data.attributes.height}
-                layout="responsive"
               />
             </div>
           )}

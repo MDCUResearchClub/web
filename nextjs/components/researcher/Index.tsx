@@ -23,10 +23,11 @@ export function DepartmentsIndex() {
                 className="text-center rounded border-2 border-blue-500 p-1"
                 key={department.id}
               >
-                <Link href={`?department=${department.id}`} passHref>
-                  <a className="capitalize block">
-                    {department.attributes.title}
-                  </a>
+                <Link
+                  href={`?department=${department.id}`}
+                  className="capitalize block"
+                >
+                  {department.attributes.title}
                 </Link>
               </article>
             ))}
@@ -35,8 +36,12 @@ export function DepartmentsIndex() {
             className="text-center rounded border-2 border-blue-500 p-1"
             key={othersDepartment.id}
           >
-            <Link href={`?department=${othersDepartment.id}`} passHref>
-              <a className="capitalize block">Others</a>
+            <Link
+              href={`?department=${othersDepartment.id}`}
+              passHref
+              className="capitalize block"
+            >
+              Others
             </Link>
           </article>
         )}
@@ -64,8 +69,12 @@ export function KeywordsIndex() {
                 className="text-center rounded border-2 p-1"
                 key={keyword.id}
               >
-                <Link href={`?keyword=${keyword.id}`} passHref>
-                  <a className="capitalize block">{keyword.attributes.title}</a>
+                <Link
+                  href={`?keyword=${keyword.id}`}
+                  passHref
+                  className="capitalize block"
+                >
+                  {keyword.attributes.title}
                 </Link>
               </article>
             ))}

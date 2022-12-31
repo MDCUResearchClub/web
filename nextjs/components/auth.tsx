@@ -88,8 +88,8 @@ export function AuthCTA({ text = "", href = "/" }: AuthCTAProps) {
   if (status === "authenticated") {
     if (href) {
       return (
-        <Link href={href}>
-          <a className={className}>{text}</a>
+        <Link href={href} className={className}>
+          {text}
         </Link>
       );
     }
