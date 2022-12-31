@@ -20,16 +20,12 @@ export default function Nav() {
     <nav className="flex flex-col md:flex-row text-center bg-gray-800 text-gray-100 items-stretch md:items-center p-2">
       <div className="flex justify-between w-full md:w-auto">
         <div className="flex items-center">
-          <Link href="/">
-            <a rel="home" className="pr-2">
-              <img src="/logo.svg" alt={`${SITE_NAME} logo`} className="w-8" />
-            </a>
+          <Link href="/" rel="home" className="pr-2">
+            <img src="/logo.svg" alt={`${SITE_NAME} logo`} className="w-8" />
           </Link>
 
-          <Link href="/">
-            <a title="Home" rel="home">
-              {SITE_NAME}
-            </a>
+          <Link href="/" title="Home" rel="home">
+            {SITE_NAME}
           </Link>
         </div>
         <div className="md:hidden">
@@ -57,9 +53,7 @@ export default function Nav() {
         <ul className="flex-1 flex flex-col md:flex-row justify-center">
           {links.map((link) => (
             <li className="m-2" key={link[1]}>
-              <Link href={link[0]}>
-                <a>{link[1]}</a>
-              </Link>
+              <Link href={link[0]}>{link[1]}</Link>
             </li>
           ))}
         </ul>

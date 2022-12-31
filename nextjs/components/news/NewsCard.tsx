@@ -37,11 +37,12 @@ export default function NewsCard({
         </span>
       )}
       {title && (
-        <Link href={href}>
-          <a className="relative block z-10 w-3/5 sm:w-3/4 lg:w-1/2">
-            <h3 className="my-4 text-xl">{title}</h3>
-            {description && <p>{description}</p>}
-          </a>
+        <Link
+          href={href}
+          className="relative block z-10 w-3/5 sm:w-3/4 lg:w-1/2"
+        >
+          <h3 className="my-4 text-xl">{title}</h3>
+          {description && <p>{description}</p>}
         </Link>
       )}
       {!title && (
@@ -55,6 +56,7 @@ export default function NewsCard({
             <Image
               src={STRAPI_ENDPOINT + image.url}
               alt=""
+              className="layout-fill object-cover"
               layout="fill"
               objectFit="cover"
               sizes="25vw"

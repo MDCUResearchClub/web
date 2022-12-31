@@ -80,9 +80,9 @@ function NewsIndex() {
   return (
     <section className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
       <Link href="/news">
-        <a>
-          <h2 className="font-serif text-3xl mb-4 hover:underline">News</h2>
-        </a>
+
+        <h2 className="font-serif text-3xl mb-4 hover:underline">News</h2>
+
       </Link>
       {firstRow}
       {secondRow}

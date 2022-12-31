@@ -82,7 +82,7 @@ export default function Details({ researcher }) {
             }}
             passHref
           >
-            <a>{keyword.attributes.title}</a>
+            {keyword.attributes.title}
           </Link>
         </li>
       ))}
