@@ -6,7 +6,7 @@ import { useStrapi, fetchStrapiPublic } from "../../lib/strapi";
 import NewsCard from "../../components/news/NewsCard";
 
 function NewsGallery() {
-  const { data: news } = useStrapi("/news-articles", {
+  const { data: news } = useStrapi("/news-articles?populate[0]=preview", {
     isPublic: true,
   });
 
@@ -18,7 +18,7 @@ function NewsGallery() {
         title={newsItem.attributes.title}
         description={newsItem.attributes.description}
         href={`/news/${newsItem.id}`}
-        image={newsItem.attributes.preview}
+        image={newsItem.attributes.preview.data?.attributes}
         className="col-span-2"
       />
     ))

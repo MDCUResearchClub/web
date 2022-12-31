@@ -20,6 +20,7 @@ export default function NewsCard({
   href?: string;
   image?: {
     url: string;
+    alternativeText: string;
     width: number;
     height: number;
   };
@@ -55,10 +56,9 @@ export default function NewsCard({
           <div className="relative h-full ml-auto">
             <Image
               src={STRAPI_ENDPOINT + image.url}
-              alt=""
-              className="layout-fill object-cover"
-              layout="fill"
-              objectFit="cover"
+              alt={image.alternativeText}
+              fill
+              className="object-cover"
               sizes="25vw"
             />
           </div>
