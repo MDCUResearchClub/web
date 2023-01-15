@@ -20,7 +20,7 @@ export function DepartmentsIndex() {
             .filter((department) => department.attributes.title)
             .map((department) => (
               <article
-                className="text-center rounded border-2 border-blue-500 p-1"
+                className="text-center rounded border-2 border-blue-700 p-1"
                 key={department.id}
               >
                 <Link
@@ -33,7 +33,7 @@ export function DepartmentsIndex() {
             ))}
         {othersDepartment && (
           <article
-            className="text-center rounded border-2 border-blue-500 p-1"
+            className="text-center rounded border-2 border-blue-700 p-1"
             key={othersDepartment.id}
           >
             <Link
