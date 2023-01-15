@@ -24,7 +24,7 @@ export default function TalkItemPage() {
     return (
       <Page>
         <Hero
-          heading={["Research Talks are", "Loading..."]}
+          heading={["Research Talk is", "Loading..."]}
           image="/images/peep2.svg"
         />
       </Page>

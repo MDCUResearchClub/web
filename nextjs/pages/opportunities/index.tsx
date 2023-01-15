@@ -34,10 +34,10 @@ function OpportunitiesIndex({ opportunitiesData }) {
 
 export default function OpportunitiesPage({ opportunitiesData }) {
   return (
-    <Page title="Opportunities">
+    <Page title="Opportunity">
       <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
         <h1 className="font-serif text-3xl mb-4 text-center">
-          Research Opportunities
+          Research Opportunity
         </h1>
         <OpportunitiesIndex opportunitiesData={opportunitiesData} />
       </div>

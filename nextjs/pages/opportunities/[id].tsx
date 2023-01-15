@@ -19,9 +19,7 @@ export default function OpportunityItemPage({ opportunityItemData }) {
 
   return (
     <Page
-      title={
-        opportunityItem ? opportunityItem.attributes.title : "Opportunities"
-      }
+      title={opportunityItem ? opportunityItem.attributes.title : "Opportunity"}
     >
       {opportunityItem && (
         <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">

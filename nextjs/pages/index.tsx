@@ -93,7 +93,7 @@ export default function IndexPage({ fallbackData }) {
         <Hero
           heading={["Research is", "not as hard", "as you think."]}
           image="/images/front.svg"
-          ctaText="Watch Research Talks"
+          ctaText="Watch Research Talk"
           ctaHref="/talks"
           imageClassName="justify-center"
         />

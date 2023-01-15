@@ -118,9 +118,11 @@ export default function ResearchersPage() {
   const router = useRouter();
   const haveQuery = Object.keys(router.query).length > 0;
   return (
-    <Page title="Researchers">
+    <Page title="Researcher Information">
       <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
-        <h1 className="font-serif text-3xl mb-4 text-center">Researchers</h1>
+        <h1 className="font-serif text-3xl mb-4 text-center">
+          Researcher Information
+        </h1>
         <SearchBox />
         {haveQuery && <SearchResults />}
         {!haveQuery && <DepartmentsIndex />}
