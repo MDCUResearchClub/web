@@ -1,4 +1,4 @@
-import { AuthCTA } from "../auth";
+import Link from "next/link";
 
 import styles from "./Hero.module.css";
 
@@ -17,6 +17,8 @@ export default function Hero({
   ctaHref = "/",
   imageClassName = "justify-end",
 }: HeroProps) {
+  const ctaClassName =
+    "inline-block rounded-md text-center text-xl md:text-2xl text-white bg-indigo-700 px-12 md:px-auto md:w-full py-2";
   return (
     <>
       <div className="px-4 md:px-8 container relative mx-auto md:flex justify-around items-start">
@@ -39,7 +41,14 @@ export default function Hero({
             <br />
             {heading[2]}
           </h1>
-          {ctaText && <AuthCTA text={ctaText} href={ctaHref} />}
+          {ctaText &&
+            (ctaHref ? (
+              <Link href={ctaHref} className={ctaClassName}>
+                {ctaText}
+              </Link>
+            ) : (
+              <p className={ctaClassName}>{ctaText}</p>
+            ))}
         </div>
       </div>
     </>

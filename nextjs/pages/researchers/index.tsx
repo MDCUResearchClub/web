@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import Page from "../../components/Page";
-import Hero from "../../components/common/Hero";
 import { useStrapi } from "../../lib/strapi";
 import Card from "../../components/researcher/Card";
 import Loading from "../../components/common/Loading";
@@ -118,19 +116,6 @@ function SearchBox() {
 
 export default function ResearchersPage() {
   const router = useRouter();
-  const { status } = useSession();
-
-  if (status !== "authenticated") {
-    return (
-      <Page title="Researchers">
-        <Hero
-          heading={["Researchers are", "for members."]}
-          image="/images/peep1.svg"
-          ctaText="Loading..."
-        />
-      </Page>
-    );
-  }
   const haveQuery = Object.keys(router.query).length > 0;
   return (
     <Page title="Researchers">

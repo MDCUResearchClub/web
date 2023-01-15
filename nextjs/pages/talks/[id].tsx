@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
-import { useSession } from "next-auth/react";
+
 import { useStrapi } from "../../lib/strapi";
 
 import Page from "../../components/Page";
@@ -9,12 +9,14 @@ import VideoPlayer from "../../components/common/VideoPlayer";
 
 export default function TalkItemPage() {
   const router = useRouter();
-  const { status } = useSession();
-  const { data: talkItem } = useStrapi(`/research-talks/${router.query.id}`, {
-    immutable: true,
-  });
+  const { data: talkItem, dataError } = useStrapi(
+    router.query.id && `/research-talks/${router.query.id}`,
+    {
+      immutable: true,
+    }
+  );
 
-  if (status === "unauthenticated") {
+  if (dataError) {
     router.replace("/talks");
   }
 

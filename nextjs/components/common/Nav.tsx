@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { SITE_NAME } from "../../lib/constant";
 import { useState } from "react";
-import { NavbarAuth } from "../auth";
 
 import styles from "./Nav.module.css";
 
@@ -57,9 +56,6 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <div>
-          <NavbarAuth />
-        </div>
       </div>
     </nav>
   );

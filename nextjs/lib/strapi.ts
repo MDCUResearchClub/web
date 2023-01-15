@@ -36,14 +36,12 @@ export async function loginStrapiUser(user: SessionUser) {
   return strapiUser;
 }
 
-function strapiDataFetcher([endpoint, token]: [
-  endpoint: string,
-  token?: string
-]) {
+function strapiDataFetcher(key: string | [endpoint: string, token: string]) {
   const headers = {};
-  if (token) {
+  const endpoint = typeof key === "string" ? key : key[0];
+  if (typeof key !== "string") {
     // Authenticated user
-    headers["Authorization"] = `Bearer ${token}`;
+    headers["Authorization"] = `Bearer ${key[1]}`;
   }
 
   return fetch(`${STRAPI_ENDPOINT}/api${endpoint}`, {
@@ -56,37 +54,23 @@ function strapiDataFetcher([endpoint, token]: [
   });
 }
 
-export async function fetchStrapiServerSide(endpoint: string = "/users") {
-  return fetch(`${STRAPI_ENDPOINT}/api${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      nextjs: process.env.STRAPI_TOKEN,
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    throw res;
-  });
-}
-
-export async function fetchStrapiPublic(endpoint: string) {
-  return await fetch(`${STRAPI_ENDPOINT}/api${endpoint}`);
+export async function fetchStrapi(endpoint: string, init?: RequestInit) {
+  return fetch(`${STRAPI_ENDPOINT}/api${endpoint}`, init);
 }
 
 type useStrapiOptions = {
   userOptions?: SWRConfiguration;
   dataOptions?: SWRConfiguration;
-  isPublic?: boolean;
+  requireAuth?: boolean;
   immutable?: boolean;
 };
 
 export function useStrapi(
-  endpoint: string = "/users/me",
+  endpoint: string,
   {
     userOptions = {},
     dataOptions = {},
-    isPublic = false,
+    requireAuth = false,
     immutable = false,
   }: useStrapiOptions = {}
 ) {
@@ -121,8 +105,8 @@ export function useStrapi(
   let finalEndpoint;
   if (user && endpoint) {
     finalEndpoint = [endpoint, user["jwt"]];
-  } else if (isPublic && endpoint) {
-    finalEndpoint = [endpoint];
+  } else if (!requireAuth && endpoint) {
+    finalEndpoint = endpoint;
   } else {
     finalEndpoint = null;
   }
