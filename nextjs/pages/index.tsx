@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { GetStaticProps } from "next";
 import { SWRConfig } from "swr";
@@ -13,7 +12,6 @@ function LatestTalk() {
   return (
     <NewsCard
       theme="dark"
-      intro="Latest talk »»"
       title={talks?.[0]?.attributes.title}
       href={talks?.[0]?.id ? `/talks/${talks[0]?.id}` : undefined}
     />
@@ -21,58 +19,35 @@ function LatestTalk() {
 }
 
 function NewsIndex() {
-  const { status } = useSession();
   const { data: news } = useStrapi("/news-articles?_limit=4");
 
   const newsCard = news
     ? news.map((newItem) => (
         <NewsCard
-          className="md:col-span-2"
           key={newItem.id}
           theme="light"
           title={newItem.attributes.title}
           description={newItem.attributes.description}
           href={`/news/${newItem.id}`}
-          image={newItem.attributes.preview}
         />
       ))
     : null;
 
-  let firstRow = (
-    <div className="grid md:grid-cols-4">
-      <NewsCard className="md:col-span-2" />
-      <NewsCard className="md:col-span-2" />
-    </div>
+  let newsContent = (
+    <>
+      <NewsCard />
+      <NewsCard />
+    </>
   );
-  let secondRow;
   if (news) {
-    if (status === "authenticated") {
-      firstRow = (
-        <div className="grid md:grid-cols-3">
-          {news[0] && newsCard[0]}
-          <LatestTalk />
-        </div>
-      );
-      secondRow = (
-        <div className="grid md:grid-cols-4">
-          {news[1] && newsCard[1]}
-          {news[2] && newsCard[2]}
-        </div>
-      );
-    } else {
-      firstRow = (
-        <div className="grid md:grid-cols-4">
-          {news[0] && newsCard[0]}
-          {news[1] && newsCard[1]}
-        </div>
-      );
-      secondRow = (
-        <div className="grid md:grid-cols-4">
-          {news[2] && newsCard[2]}
-          {news[3] && newsCard[3]}
-        </div>
-      );
-    }
+    newsContent = (
+      <>
+        {news && news[0] && newsCard[0]}
+        <LatestTalk />
+        {news && news[1] && newsCard[1]}
+        {news && news[2] && newsCard[2]}
+      </>
+    );
   }
 
   return (
@@ -80,8 +55,7 @@ function NewsIndex() {
       <Link href="/news">
         <h2 className="font-serif text-3xl mb-4 hover:underline">News</h2>
       </Link>
-      {firstRow}
-      {secondRow}
+      <div className="grid auto-rows-auto gap-4">{newsContent}</div>
     </section>
   );
 }

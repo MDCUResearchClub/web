@@ -17,7 +17,7 @@ function NewsGallery({ fallbackNewsData }) {
         title={newsItem.attributes.title}
         description={newsItem.attributes.description}
         href={`/news/${newsItem.id}`}
-        image={newsItem.attributes.preview.data?.attributes}
+        image={newsItem.attributes.preview.data?.attributes || null}
         className="col-span-2"
       />
     ))
@@ -34,7 +34,7 @@ export default function NewsPage({ fallbackNewsData }) {
     <Page title="News">
       <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
         <h1 className="font-serif text-3xl mb-4 text-center">News</h1>
-        <div className="grid md:grid-cols-4">
+        <div className="grid auto-rows-auto gap-4">
           <NewsGallery fallbackNewsData={fallbackNewsData} />
         </div>
       </div>
