@@ -6,7 +6,7 @@ import { SWRConfig } from "swr";
 import Page from "../components/Page";
 import Hero from "../components/common/Hero";
 import NewsCard from "../components/news/NewsCard";
-import { useStrapi, fetchStrapiPublic } from "../lib/strapi";
+import { useStrapi, fetchStrapi } from "../lib/strapi";
 
 function LatestTalk() {
   const { data: talks } = useStrapi("/research-talks?_limit=1&_sort=id:desc");
@@ -22,9 +22,7 @@ function LatestTalk() {
 
 function NewsIndex() {
   const { status } = useSession();
-  const { data: news } = useStrapi("/news-articles?_limit=4", {
-    isPublic: true,
-  });
+  const { data: news } = useStrapi("/news-articles?_limit=4");
 
   const newsCard = news
     ? news.map((newItem) => (
@@ -80,9 +78,7 @@ function NewsIndex() {
   return (
     <section className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
       <Link href="/news">
-
         <h2 className="font-serif text-3xl mb-4 hover:underline">News</h2>
-
       </Link>
       {firstRow}
       {secondRow}
@@ -108,10 +104,10 @@ export default function IndexPage({ fallbackData }) {
 }
 
 export const getStaticProps: GetStaticProps = async function (context) {
-  const talks = await fetchStrapiPublic(
+  const talks = await fetchStrapi(
     "/research-talks?_limit=1&_sort=id:desc"
   ).then((res) => (res.ok ? res.json() : null));
-  const news = await fetchStrapiPublic("/news-articles?_limit=4").then((res) =>
+  const news = await fetchStrapi("/news-articles?_limit=4").then((res) =>
     res.ok ? res.json() : null
   );
   return {
