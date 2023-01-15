@@ -16,9 +16,9 @@ export default function Nav() {
   ];
 
   return (
-    <nav className="flex flex-col md:flex-row text-center bg-gray-800 text-gray-100 items-stretch md:items-center p-2">
-      <div className="flex justify-between w-full md:w-auto">
-        <div className="flex items-center">
+    <nav className="flex flex-col text-center bg-gray-800 text-gray-100 md:items-center p-2">
+      <div className="flex justify-between">
+        <div className="flex items-center py-2">
           <Link href="/" rel="home" className="pr-2">
             <img src="/logo.svg" alt={`${SITE_NAME} logo`} className="w-8" />
           </Link>
@@ -27,7 +27,8 @@ export default function Nav() {
             {SITE_NAME}
           </Link>
         </div>
-        <div className="md:hidden">
+
+        <div className="md:hidden flex items-center">
           <button
             className={`${styles.hamburger} ${styles.hamburgerSqueeze} ${
               expanded ? styles.isActive : ""
