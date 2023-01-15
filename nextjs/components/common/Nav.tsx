@@ -8,7 +8,6 @@ export default function Nav() {
   const [expanded, setExpanded] = useState(false);
 
   const links = [
-    ["/", "Home"],
     ["/news", "News"],
     ["/talks", "Research Talk"],
     ["/talks", "Research Insight"],
