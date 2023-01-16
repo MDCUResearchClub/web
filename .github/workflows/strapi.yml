@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/strapi
+  IMAGE_NAME: strapi
 
 defaults:
   run:
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/delete-package-versions@v4
         with:
-          package-name: web/strapi
+          package-name: ${{ github.event.repository.name }}/${{ env.IMAGE_NAME }}
           package-type: container
           min-versions-to-keep: 5
           ignore-versions: "^main$"
@@ -62,7 +62,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
