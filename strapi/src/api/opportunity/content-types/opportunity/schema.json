@@ -4,7 +4,8 @@
   "info": {
     "singularName": "opportunity",
     "pluralName": "opportunities",
-    "displayName": "Opportunities"
+    "displayName": "Opportunity",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true

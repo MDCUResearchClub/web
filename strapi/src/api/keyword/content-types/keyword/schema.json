@@ -4,7 +4,8 @@
   "info": {
     "singularName": "keyword",
     "pluralName": "keywords",
-    "displayName": "Keywords"
+    "displayName": "Keyword",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
