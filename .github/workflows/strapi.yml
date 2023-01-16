@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/delete-package-versions@v4
         with:
-          package-name: strapi
+          package-name: web/strapi
           package-type: container
           min-versions-to-keep: 5
           ignore-versions: "^main$"
