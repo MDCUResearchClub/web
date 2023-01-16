@@ -10,7 +10,7 @@ export default function Nav() {
   const links = [
     ["/news", "News"],
     ["/talks", "Research Talk"],
-    ["/talks", "Research Insight"],
+    ["/insights", "Research Insight"],
     ["/opportunities", "Opportunity"],
     ["/researchers", "Researcher Information"],
   ];
