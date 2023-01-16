@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "research_talks",
+  "collectionName": "research_insights",
   "info": {
-    "singularName": "research-talk",
-    "pluralName": "research-talks",
-    "displayName": "Research talk",
-    "description": ""
+    "singularName": "research-insight",
+    "pluralName": "research-insights",
+    "displayName": "Research insight"
   },
   "options": {
     "draftAndPublish": true

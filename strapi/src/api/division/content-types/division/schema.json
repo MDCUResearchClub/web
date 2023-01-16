@@ -4,7 +4,8 @@
   "info": {
     "singularName": "division",
     "pluralName": "divisions",
-    "displayName": "Divisions"
+    "displayName": "Division",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
