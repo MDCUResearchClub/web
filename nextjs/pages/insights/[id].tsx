@@ -7,24 +7,24 @@ import Page from "../../components/Page";
 import Hero from "../../components/common/Hero";
 import VideoPlayer from "../../components/common/VideoPlayer";
 
-export default function TalkItemPage() {
+export default function InsightItemPage() {
   const router = useRouter();
-  const { data: talkItem, dataError } = useStrapi(
-    router.query.id && `/research-talks/${router.query.id}`,
+  const { data: insightItem, dataError } = useStrapi(
+    router.query.id && `/research-insights/${router.query.id}`,
     {
       immutable: true,
     }
   );
 
   if (dataError) {
-    router.replace("/talks");
+    router.replace("/insights");
   }
 
-  if (!talkItem?.id) {
+  if (!insightItem?.id) {
     return (
       <Page>
         <Hero
-          heading={["Research talk is", "Loading..."]}
+          heading={["Research insight is", "Loading..."]}
           image="/images/peep2.svg"
         />
       </Page>
@@ -32,18 +32,18 @@ export default function TalkItemPage() {
   }
 
   return (
-    <Page title={talkItem.attributes.title + " talks"}>
+    <Page title={insightItem.attributes.title + " insight"}>
       <div className="bg-black">
         <div className="container mx-auto md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <VideoPlayer videoID={talkItem.attributes.youtubeID} />
+          <VideoPlayer videoID={insightItem.attributes.youtubeID} />
         </div>
       </div>
       <div className="container mx-auto p-6">
         <h1 className="text-xl md:text-2xl font-semibold mb-2">
-          {talkItem.attributes.title}
+          {insightItem.attributes.title}
         </h1>
         <div className="prose mx-auto">
-          <ReactMarkdown>{talkItem.attributes.description}</ReactMarkdown>
+          <ReactMarkdown>{insightItem.attributes.description}</ReactMarkdown>
         </div>
       </div>
     </Page>
