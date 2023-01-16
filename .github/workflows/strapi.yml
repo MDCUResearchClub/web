@@ -33,6 +33,17 @@ jobs:
           API_TOKEN_SALT: example-salt
           JWT_SECRET: aSecret
 
+  prune-containers:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 5
+          ignore-versions: "^main$"
+
   build-and-push-image:
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
