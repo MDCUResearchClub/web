@@ -22,6 +22,15 @@
     "youtubeID": {
       "type": "string",
       "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "research talk",
+        "research journey",
+        "co-operation"
+      ],
+      "required": true
     }
   }
 }
