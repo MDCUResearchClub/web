@@ -13,10 +13,12 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "details": {
-      "type": "richtext"
+      "type": "richtext",
+      "required": true
     },
     "status": {
       "type": "enumeration",
@@ -25,6 +27,14 @@
         "completed"
       ],
       "default": "available",
+      "required": true
+    },
+    "department": {
+      "type": "string",
+      "required": true
+    },
+    "deadline": {
+      "type": "date",
       "required": true
     }
   }
