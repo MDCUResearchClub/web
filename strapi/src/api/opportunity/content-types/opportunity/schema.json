@@ -17,6 +17,15 @@
     },
     "details": {
       "type": "richtext"
+    },
+    "Status": {
+      "type": "enumeration",
+      "enum": [
+        "available",
+        "completed"
+      ],
+      "default": "available",
+      "required": true
     }
   }
 }
