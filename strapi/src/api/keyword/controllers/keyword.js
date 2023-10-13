@@ -8,7 +8,7 @@ const { createCoreController } = require("@strapi/strapi").factories;
 const {
   getPaginationInfo,
   convertPagedToStartLimit,
-} = require("@strapi/strapi/lib/core-api/service/pagination");
+} = require("@strapi/strapi/dist/core-api/service/pagination");
 const { transformParamsToQuery } = require('@strapi/utils').convertQueryParams;
 
 module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
