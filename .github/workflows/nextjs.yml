@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run build
 
@@ -18,7 +18,7 @@ jobs:
     if: github.actor != 'dependabot[bot]' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           mkdir .vercel
           echo $VERCEL_PROJECT > .vercel/project.json
@@ -31,7 +31,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           mkdir .vercel
           echo $VERCEL_PROJECT > .vercel/project.json
@@ -44,7 +44,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           mkdir .vercel
           echo $VERCEL_PROJECT > .vercel/project.json
