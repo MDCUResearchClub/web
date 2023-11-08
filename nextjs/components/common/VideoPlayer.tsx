@@ -12,9 +12,11 @@ function VideoPlayer({
   videoID = "dQw4w9WgXcQ",
   options = {},
 }: VideoPlayerProps) {
-  const playerRef = useRef();
+  const playerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!playerRef.current) return;
+
     const player = new Plyr(playerRef.current, options) as any;
 
     return () => {
