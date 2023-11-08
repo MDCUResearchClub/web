@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { SITE_NAME } from "../../lib/constant";
 import { useState } from "react";
