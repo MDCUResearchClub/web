@@ -2,7 +2,7 @@ import qs from "qs";
 
 import { STRAPI_ENDPOINT } from "../lib/constant";
 
-export async function fetchStrapi(endpoint, query) {
+export async function fetchStrapi(endpoint, query = {}) {
   const data = await fetch(
     STRAPI_ENDPOINT + "/api" + endpoint + "?" + qs.stringify(query)
   );

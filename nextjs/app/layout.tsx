@@ -5,6 +5,7 @@ import { STRAPI_ENDPOINT } from "../lib/constant";
 
 import Nav from "../components/common/Nav";
 import Footer from "../components/common/Footer";
+import { GoogleTag } from "./gtag";
 
 import "../lib/globals.css";
 
@@ -76,6 +77,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </div>
+        <GoogleTag />
       </body>
     </html>
   );
