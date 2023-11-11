@@ -57,8 +57,6 @@ module.exports = createCoreController("api::keyword.keyword", ({ strapi }) => ({
       .getFetchParams(ctx.query);
     const paginationInfo = getPaginationInfo(fetchParams);
 
-    console.log(strapi.db.metadata.get("api::keyword.keyword"))
-
     const results = await strapi.db.connection
       .select(`${tableName}.${referencedColumn}`, "title")
       .from(tableName)
