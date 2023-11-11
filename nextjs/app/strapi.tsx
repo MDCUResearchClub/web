@@ -6,8 +6,13 @@ export async function fetchStrapi(endpoint, query = {}) {
   const data = await fetch(
     STRAPI_ENDPOINT + "/api" + endpoint + "?" + qs.stringify(query)
   );
+  if (!data.ok) {
+    return undefined;
+  }
   const data_json = await data.json();
-  const flatten = flattenAttributes(data_json.data);
+  const flatten = flattenAttributes(
+    data_json.data ? data_json.data : data_json
+  );
   return flatten;
 }
 
