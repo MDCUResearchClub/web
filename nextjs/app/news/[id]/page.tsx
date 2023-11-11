@@ -31,7 +31,7 @@ export default async function NewsItemPage({ params }) {
   const newsItem = await fetchStrapi(`/news-articles/${params.id}`, {
     populate: ["preview", "cover"],
   });
-  if (!newsItem || newsItem.publicationState !== "live") {
+  if (!newsItem || newsItem.publishedAt === null) {
     redirect("/news");
   }
 
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   const newsItem = await fetchStrapi(`/news-articles/${params.id}`, {
     populate: ["preview", "cover"],
   });
-  if (!newsItem || newsItem.publicationState !== "live") {
+  if (!newsItem || newsItem.publishedAt !== null) {
     return {
       title: "Redirecting... | " + SITE_NAME,
     };
