@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { fetchStrapi } from "../strapi";
 import NewsCard from "../NewsCard";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "News",
 };

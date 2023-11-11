@@ -7,6 +7,8 @@ import unwrapImages from "remark-unwrap-images";
 import { SITE_NAME, SITE_ORIGIN, STRAPI_ENDPOINT } from "../../../lib/constant";
 import { fetchStrapi } from "../../strapi";
 
+export const revalidate = 60;
+
 async function ImageRenderer({
   src,
   alt,
