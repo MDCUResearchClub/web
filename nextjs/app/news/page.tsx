@@ -27,8 +27,7 @@ async function NewsGallery() {
     ))
   ) : (
     <>
-      <NewsCard className="md:col-span-2" />
-      <NewsCard className="md:col-span-2" />
+      <text className="text-center">No news found</text>
     </>
   );
 }
@@ -36,7 +35,7 @@ async function NewsGallery() {
 export default function NewsPage() {
   return (
     <div className="px-2 md:px-4 lg:px-16 container mx-auto py-4">
-      <h1 className="font-serif text-3xl mb-4 text-center">News</h1>
+      <h1 className="text-3xl mb-4 underline">News</h1>
       <div className="grid auto-rows-auto gap-4">
         <NewsGallery />
       </div>
