@@ -23,8 +23,8 @@
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.9",
-    "@types/react": "^18.2.56",
+    "@types/node": "^20.11.20",
+    "@types/react": "^18.2.57",
     "typescript": "^5.3.3"
   }
 }
