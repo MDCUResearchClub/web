@@ -14,7 +14,7 @@
     "@strapi/plugin-users-permissions": "4.20.5",
     "@strapi/strapi": "4.20.5",
     "better-sqlite3": "9.4.3",
-    "pg": "8.11.3"
+    "pg": "8.11.5"
   },
   "author": {
     "name": "A Strapi developer"
