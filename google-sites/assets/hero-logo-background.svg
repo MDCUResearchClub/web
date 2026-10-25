@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="960" viewBox="0 0 2400 960">
+  <!-- Home hero background for Google Sites (Section colors › Image). The club mark from the design, at the
+       hero's right edge: sky 9% and amber 10% over navy #0B1630. -->
+  <rect width="2400" height="960" fill="#0B1630"/>
+  <g transform="translate(1468 -113) scale(1.4125)" fill="none" stroke-width="64" stroke-linecap="round">
+    <path d="M150 790V270c0-88 62-150 150-150h170c140 0 240 110 240 240s-100 240-240 240" stroke="#5BC6EA" stroke-opacity="0.09"/>
+    <path d="M520 330c-110 0-190 80-190 170s80 170 190 170h190" stroke="#F4B13A" stroke-opacity="0.10"/>
+  </g>
+</svg>
